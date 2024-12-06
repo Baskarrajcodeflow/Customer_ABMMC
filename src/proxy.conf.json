@@ -1,0 +1,53 @@
+
+{
+  "/constants": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/aaa": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/risk": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/kyc": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/um": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/pm": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rmsbo": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "*": {
+    "target": "http://localhost:4800",
+    "secure": false,
+    "changeOrigin": true
+  }, 
+  "/ts": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/tms": {
+    "target": "http://192.168.0.195:8080",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

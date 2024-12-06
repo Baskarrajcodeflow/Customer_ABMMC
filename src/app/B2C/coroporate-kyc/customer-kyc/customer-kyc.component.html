@@ -1,0 +1,874 @@
+<div class="flex h-full overflow-y-auto bg-gradient-to-r from-blue-50 to-indigo-50 font-sans">
+  <div class="w-full p-2 ">
+
+    <div class="">
+      <div class="flex space-x-16 px-10 py-4 m-2 border-b-2 border-gray-200 bg-white">
+        <div *ngIf="isLoading" class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-800">
+          <div class="w-16 h-16 border-4 border-solid border-gray-300 rounded-full animate-spin border-t-transparent">
+          </div>
+        </div>
+        <ng-container *ngFor="let tab of formTabs; let i = index">
+          <button (click)="selectedTab(tab,i)"
+            class="pb-2 text-md text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300">
+            {{tab}}
+          </button>
+        </ng-container>
+
+
+      </div>
+
+      <!--Basic Info -->
+      <div *ngIf="tab == 'Basic Info'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="identityDetailsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div class="flex flex-col">
+
+              <label for="customerFirstName" class="mt-2 block text-sm font-medium text-gray-700">First Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="customerFirstName" formControlName="customerFirstName" name="customerFirstName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="First Name">
+
+              <label for="customerFatherName" class="mt-2 block text-sm font-medium text-gray-700">Father Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="customerFatherName" formControlName="customerFatherName" name="customerFatherName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="First Name">
+
+              <label for="customerGender" class="mt-2 block text-sm font-medium text-gray-700">Gender
+                <span class="text-red-500">*</span></label>
+              <select id="customerGender" name="customerGender" formControlName="customerGender" placeholder="Select"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+
+              </select>
+
+              <label for="phone" class="mt-2 block text-sm font-medium text-gray-700">Phone
+                Number<span class="text-red-500">*</span></label>
+              <input type="text" id="phone" formControlName="phone" name="phone" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Phone Number">
+
+              <label for="customerEmail" class="mt-2 block text-sm font-medium text-gray-700">Email<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="customerEmail" formControlName="customerEmail" name="customerEmail" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Email">
+
+              <label for="customerNationality" class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
+                  class="text-red-500">*</span></label>
+              <select id="customerNationality" name="customerNationality" formControlName="customerNationality"
+                placeholder="Select customerNationality"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+
+              <label for="idType" class="mt-2 block text-sm font-medium text-gray-700">ID Proof Type<span
+                  class="text-red-500">*</span></label>
+              <select id="idType" name="idType" formControlName="idType" placeholder="Select idType"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <!--                 <option *ngFor="let idType of idTypes" [value]="idType.name">{{idType.name}}</option>
+-->
+                <option value="E_TAZKIRA" selected>E-Tazkira</option>
+                <option value="PAPER_TAZKIRA" selected>Paper Tazkira</option>
+                <option value="PASSPORT" selected>Passport</option>
+
+
+              </select>
+
+              <label for="corporatePassword" class="mt-2 block text-sm font-medium text-gray-700">
+                Password<span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <input [type]="isPasswordVisible ? 'text' : 'password'" id="password" formControlName="password"
+                  name="password" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm pr-10">
+                <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                  (click)="togglePasswordVisibility()">
+                  <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </span>
+              </div>
+
+
+
+
+
+
+
+
+            </div>
+
+            <div class="flex flex-col">
+              <label for="customerLastName" class="mt-2 block text-sm font-medium text-gray-700">Last Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="customerLastName" formControlName="customerLastName" name="customerLastName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="First Name">
+
+              <label for="customerDOB" class="mt-2 block text-sm font-medium text-gray-700">Date of Birth<span
+                  class="text-red-500">*</span> <!-- <span *ngIf="shareholder.get('customerDOB')?.hasError('underage')">
+                      <small style="color: red;">Age should be at least 18 years old.</small>
+                    </span> -->
+              </label>
+              <input type="date" id="customerDOB" formControlName="customerDOB" name="customerDOB" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Date of Birth">
+
+              <label for="customerMaritialStatus" class="mt-2 block text-sm font-medium text-gray-700">Maritial
+                Status<span class="text-red-500">*</span></label>
+              <select id="customerMaritialStatus" name="customerMaritialStatus" formControlName="customerMaritialStatus"
+                placeholder="Select"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option value="SINGLE">Single</option>
+                <option value="MARRIED">Married</option>
+
+              </select>
+
+              <label for="customerAlternatePhone" class="mt-2 block text-sm font-medium text-gray-700">Alternative Phone
+                Number<span class="text-red-500">*</span></label>
+              <input type="text" id="customerAlternatePhone" formControlName="customerAlternatePhone"
+                name="customerAlternatePhone" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Alternative Phone Number">
+
+              <label for="customerBirthCountry" class="mt-2 block text-sm font-medium text-gray-700">Birth Country<span
+                  class="text-red-500">*</span></label>
+              <select id="customerBirthCountry" name="customerBirthCountry" formControlName="customerBirthCountry"
+                placeholder="Select customerBirthCountry"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+
+              <label for="customerBirthProvince" class="mt-2 block text-sm font-medium text-gray-700">Birth
+                Province<span class="text-red-500">*</span></label>
+              <select id="customerBirthProvince" name="customerBirthProvince" formControlName="customerBirthProvince"
+                placeholder="Select customerBirthProvince"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+              </select>
+
+              <label for="employmentType" class="mt-2 block text-sm font-medium text-gray-700">Employment Type<span
+                  class="text-red-500">*</span></label>
+              <select id="employmentType" name="employmentType" formControlName="employmentType"
+                placeholder="Select idType"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <!--                     <option *ngFor="let idType of idTypes" [value]="idType.name">{{idType.name}}</option>
+ -->
+                <option value="EMPLOYED">Employed</option>
+                <option value="SELF_EMPLOYED">Self-Employed</option>
+                <option value="GOVT_EMPLOYED">Government Employee</option>
+                <option value="UNEMPLOYED">Unemployed</option>
+              </select>
+
+
+
+            </div>
+
+
+
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <!--Address Tab -->
+      <div *ngIf="tab == 'Address Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="addressDetailsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <!--               <h2 class="text-lg font-semibold mb-6 text-gray-800">Current Address</h2>
+ -->
+
+            <div class="flex flex-col">
+
+              <label for="currentLocation" class="mt-2 block text-sm font-medium text-gray-700">Location<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="currentLocation" formControlName="currentLocation" name="currentLocation" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Location">
+
+              <label for="currentProvince" class="mt-2 block text-sm font-medium text-gray-700">Province<span
+                  class="text-red-500">*</span></label>
+              <select id="currentProvince" name="currentProvince" formControlName="currentProvince"
+                placeholder="Select currentProvince"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                (change)="onSelectProvince($event)">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+              </select>
+
+              <label for="permanantCountry" class="mt-2 block text-sm font-medium text-gray-700"> Permanant Country<span
+                  class="text-red-500">*</span></label>
+              <select id="permanantCountry" name="permanantCountry" formControlName="permanantCountry"
+                placeholder="Select permanantCountry"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+
+              <label for="permanantDistrict" class="mt-2 block text-sm font-medium text-gray-700">
+                District<span class="text-red-500">*</span></label>
+              <select id="currentDistrict" name="currentDistrict" formControlName="currentDistrict"
+                placeholder="Select District"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+              </select>
+
+
+            </div>
+
+            <div class="flex flex-col">
+              <label for="currentCountry" class="mt-2 block text-sm font-medium text-gray-700">Country<span
+                  class="text-red-500">*</span></label>
+              <select id="currentCountry" name="currentCountry" formControlName="currentCountry"
+                placeholder="Select currentCountry"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+              <label for="permanantDistrict" class="mt-2 block text-sm font-medium text-gray-700">
+                Permanant District<span class="text-red-500">*</span></label>
+              <select id="permanantDistrict" name="permanantDistrict" formControlName="permanantDistrict"
+                placeholder="Select District"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+              </select>
+
+              <label for="permanantProvince" class="mt-2 block text-sm font-medium text-gray-700"> Permanant
+                Province<span class="text-red-500">*</span></label>
+              <select id="permanantProvince" name="permanantProvince" formControlName="permanantProvince"
+                placeholder="Select Province"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                (change)="onSelectProvince($event)">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+              </select>
+
+
+            </div>
+
+
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <!--occupation -->
+      <div *ngIf="tab == 'Occupation Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="occupationDetailsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ng-container *ngIf="identityDetailsForm.get('employmentType')?.value === 'EMPLOYED'">
+
+              <div class="flex flex-col">
+
+                <label for="sourceOfIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="sourceOfIncome" formControlName="sourceOfIncome" name="sourceOfIncome" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Source of Income">
+
+                <label for="positionHeld" class="mt-2 block text-sm font-medium text-gray-700">Position Held<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="positionHeld" formControlName="positionHeld" name="positionHeld" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Position Held">
+
+                <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
+                    class="text-red-500">*</span></label>
+                <input (blur)="formatCurrency(occupationDetailsForm,'monthlyTurnover')" type="text" id="monthlyTurnover"
+                  formControlName="monthlyTurnover" name="monthlyTurnover" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Turnover">
+
+
+
+
+              </div>
+
+              <div class="flex flex-col">
+
+                <label for="employerName" class="mt-2 block text-sm font-medium text-gray-700">Employer Name<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="employerName" formControlName="employerName" name="employerName" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="First Name">
+
+                <label for="monthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required
+                  (blur)="formatCurrency(occupationDetailsForm,'monthlyIncome')"
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Income">
+
+                <label for="tinNumber" class="mt-2 block text-sm font-medium text-gray-700">TIN Number</label>
+                <input type="text" id="tinNumber" formControlName="tinNumber" name="tinNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="TIN Number">
+
+              </div>
+
+            </ng-container>
+            <ng-container *ngIf="identityDetailsForm.get('employmentType')?.value === 'SELF_EMPLOYED'">
+
+              <div class="flex flex-col">
+
+                <label for="sourceOfIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="sourceOfIncome" formControlName="sourceOfIncome" name="sourceOfIncome" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Source of Income">
+
+
+
+                <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
+                    class="text-red-500">*</span></label>
+                <input (blur)="formatCurrency(occupationDetailsForm,'monthlyTurnover')" type="text" id="monthlyTurnover"
+                  formControlName="monthlyTurnover" name="monthlyTurnover" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Turnover">
+
+
+
+
+              </div>
+
+              <div class="flex flex-col">
+
+                <label for="natureofBusiness" class="block text-sm font-medium text-gray-700">Nature of Business<span
+                    class="text-red-500">*</span></label>
+                <select id="natureofBusiness" name="natureofBusiness" formControlName="natureofBusiness"
+                  placeholder="Select Nature of Business"
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                  <option value="" disabled selected>Select</option>
+                  <option *ngFor="let businessType of natureofBusinesses" value="businessType.id">{{businessType.name}}
+                  </option>
+                </select>
+
+                <label for="monthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required
+                  (blur)="formatCurrency(occupationDetailsForm,'monthlyIncome')"
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Income">
+
+
+
+              </div>
+
+            </ng-container>
+            <ng-container *ngIf="identityDetailsForm.get('employmentType')?.value === 'GOVT_EMPLOYED'">
+
+              <div class="flex flex-col">
+
+                <label for="sourceOfIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="sourceOfIncome" formControlName="sourceOfIncome" name="sourceOfIncome" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Source of Income">
+
+                <label for="govtPositionHeld" class="mt-2 block text-sm font-medium text-gray-700">Position Held<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="govtPositionHeld" formControlName="govtPositionHeld" name="govtPositionHeld"
+                  required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Position Held">
+
+
+
+                <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
+                    class="text-red-500">*</span></label>
+                <input (blur)="formatCurrency(occupationDetailsForm,'monthlyTurnover')" type="text" id="monthlyTurnover"
+                  formControlName="monthlyTurnover" name="monthlyTurnover" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Turnover">
+
+
+
+
+              </div>
+
+              <div class="flex flex-col">
+
+                <label for="govtOrganizationName" class="mt-2 block text-sm font-medium text-gray-700">Organization
+                  Name<span class="text-red-500">*</span></label>
+                <input type="text" id="govtOrganizationName" formControlName="govtOrganizationName"
+                  name="govtOrganizationName" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Position Held">
+
+
+
+                <label for="monthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly Income<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required
+                  (blur)="formatCurrency(occupationDetailsForm,'monthlyIncome')"
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Income">
+
+                <label for="tinNumber" class="mt-2 block text-sm font-medium text-gray-700">TIN Number</label>
+                <input type="text" id="tinNumber" formControlName="tinNumber" name="tinNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="TIN Number">
+
+              </div>
+
+            </ng-container>
+            <ng-container *ngIf="identityDetailsForm.get('employmentType')?.value === 'UNEMPLOYED'">
+
+              <div class="flex flex-col">
+
+                <label for="sourceOfFund" class="mt-2 block text-sm font-medium text-gray-700">Source of Fund<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="sourceOfFund" formControlName="sourceOfFund" name="sourceOfFund" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Source of Fund">
+
+              </div>
+
+              <div class="flex flex-col">
+
+                <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
+                    class="text-red-500">*</span></label>
+                <input (blur)="formatCurrency(occupationDetailsForm,'monthlyTurnover')" type="text" id="monthlyTurnover"
+                  formControlName="monthlyTurnover" name="monthlyTurnover" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Monthly Turnover">
+
+              </div>
+
+            </ng-container>
+
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <!--Next of Kin -->
+      <div *ngIf="tab == 'Next of Kin Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="nextOfKinDetailsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <div class="flex flex-col">
+
+              <label for="fullName" class="mt-2 block text-sm font-medium text-gray-700">Full Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="fullName" formControlName="fullName" name="fullName" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Full Name">
+
+
+
+              <label for="relationship" class="mt-2 block text-sm font-medium text-gray-700">Relationship
+                <span class="text-red-500">*</span></label>
+              <select id="relationship" name="relationship" formControlName="relationship" placeholder="Select"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+                <option value="" disabled selected>Select</option>
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Brother">Brother</option>
+                <option value="Sister">Sister</option>
+                <option value="Spouse">Spouse</option>
+
+              </select>
+
+              <label for="location" class="mt-2 block text-sm font-medium text-gray-700">Location<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="location" formControlName="location" name="location" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Location">
+
+            </div>
+
+            <div class="flex flex-col">
+              <label for="fatherName" class="mt-2 block text-sm font-medium text-gray-700">Father Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="fatherName" formControlName="fatherName" name="fatherName" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="First Name">
+
+
+
+              <label for="phoneNumber" class="mt-2 block text-sm font-medium text-gray-700">Phone
+                Number<span class="text-red-500">*</span></label>
+              <input type="text" id="phoneNumber" formControlName="phoneNumber" name="phoneNumber" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Alternative Phone Number">
+
+
+            </div>
+
+
+
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <!--Proof Details -->
+      <div *ngIf="tab == 'Proofs'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="proofsDetailsForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <ng-container *ngIf="identityDetailsForm.get('idType')?.value === 'E_TAZKIRA'">
+
+              <div class="flex flex-col">
+
+                <label for="purposeofAcoount" class="mt-2 block text-sm font-medium text-gray-700">Purpose of Account
+                  Opening<span class="text-red-500">*</span></label>
+                <input type="text" id="purposeofAcoount" formControlName="purposeofAcoount" name="purposeofAcoount"
+                  required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Purpose of Account Opening">
+
+                <label for="dateofIsuue" class="mt-2 block text-sm font-medium text-gray-700">Date of Issue<span
+                    class="text-red-500">*</span></label>
+                <input type="date" id="dateofIsuue" formControlName="dateofIsuue" name="dateofIsuue" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="">
+
+
+
+              </div>
+
+              <div class="flex flex-col">
+                <label for="idNumber" class="mt-2 block text-sm font-medium text-gray-700">ID Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="idNumber" formControlName="idNumber" name="idNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="ID Number">
+
+                <label for="dateofExpiry" class="mt-2 block text-sm font-medium text-gray-700">Date of Expiry<span
+                    class="text-red-500">*</span></label>
+                <input type="date" id="dateofExpiry" formControlName="dateofExpiry" name="dateofExpiry" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="">
+
+
+
+              </div>
+            </ng-container>
+            <ng-container *ngIf="identityDetailsForm.get('idType')?.value === 'PASSPORT' ">
+
+              <div class="flex flex-col">
+
+                <label for="purposeofAcoount" class="mt-2 block text-sm font-medium text-gray-700">Purpose of Account
+                  Opening<span class="text-red-500">*</span></label>
+                <input type="text" id="purposeofAcoount" formControlName="purposeofAcoount" name="purposeofAcoount"
+                  required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Purpose of Account Number">
+
+                <label for="dateofIsuue" class="mt-2 block text-sm font-medium text-gray-700">Date of Issue<span
+                    class="text-red-500">*</span></label>
+                <input type="date" id="dateofIsuue" formControlName="dateofIsuue" name="dateofIsuue" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="">
+
+              </div>
+
+              <div class="flex flex-col">
+                <label for="idNumber" class="mt-2 block text-sm font-medium text-gray-700">ID Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="idNumber" formControlName="idNumber" name="idNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="ID Number">
+
+                <label for="dateofExpiry" class="mt-2 block text-sm font-medium text-gray-700">Date of Expiry<span
+                    class="text-red-500">*</span></label>
+                <input type="date" id="dateofExpiry" formControlName="dateofExpiry" name="dateofExpiry" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="">
+
+
+
+              </div>
+            </ng-container>
+            <ng-container *ngIf="identityDetailsForm.get('idType')?.value === 'PAPER_TAZKIRA' ">
+
+              <div class="flex flex-col">
+
+                <label for="purposeofAcoount" class="mt-2 block text-sm font-medium text-gray-700">Purpose of Account
+                  Opening<span class="text-red-500">*</span></label>
+                <input type="text" id="purposeofAcoount" formControlName="purposeofAcoount" name="purposeofAcoount"
+                  required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Purpose of Account Opening">
+
+                <label for="pageNumber" class="mt-2 block text-sm font-medium text-gray-700">Page Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="pageNumber" formControlName="pageNumber" name="pageNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Page number">
+
+                <label for="regNumber" class="mt-2 block text-sm font-medium text-gray-700">Registration Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="regNumber" formControlName="regNumber" name="regNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Registartion Number">
+
+              </div>
+
+              <div class="flex flex-col">
+                <label for="idNumber" class="mt-2 block text-sm font-medium text-gray-700">ID Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="idNumber" formControlName="idNumber" name="idNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="ID Number">
+
+                <label for="bookNumber" class="mt-2 block text-sm font-medium text-gray-700">Book Number<span
+                    class="text-red-500">*</span></label>
+                <input type="text" id="bookNumber" formControlName="bookNumber" name="bookNumber" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                  placeholder="Book Number">
+
+
+
+              </div>
+            </ng-container>
+            <!-- new -->
+            <label for="profilePhoto" class="mt-2 block text-sm font-medium text-gray-700">Profile Photo
+              <span class="text-red-500">*</span></label>
+            <input *ngIf="showFilename('profilePhoto')" type="text" id="profilePhoto" name="profilePhoto" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="contact Person Profile Photo" (change)="onFileSelected($event,'profilePhoto', tab)" disabled>
+            <input *ngIf="!showFilename('profilePhoto')" type="file" id="profilePhoto" name="profilePhoto" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="Attach" (change)="onFileSelected($event,'profilePhoto', tab)">
+            <!-- new -->
+            <label for="digitalSign" class="mt-2 block text-sm font-medium text-gray-700">Digital Signature
+              <span class="text-red-500">*</span></label>
+            <input *ngIf="showFilename('digitalSign')" type="text" id="digitalSign" name="digitalSign" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'digitalSign', tab)" disabled>
+            <input *ngIf="!showFilename('digitalSign')" type="file" id="digitalSign" name="digitalSign" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="Attach" (change)="onFileSelected($event,'digitalSign', tab)">
+
+            <label for="photo" class="mt-2 block text-sm font-medium text-gray-700">Photo
+              <span class="text-red-500">*</span></label>
+            <input *ngIf="showFilename('photo')" type="text" id="photo" name="photo" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'photo', tab)" disabled>
+            <input *ngIf="!showFilename('photo')" type="file" id="photo" name="photo" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="Attach" (change)="onFileSelected($event,'photo', tab)">
+
+            <label for="docFront" class="mt-2 block text-sm font-medium text-gray-700">Document (Front)
+              <span class="text-red-500">*</span></label>
+            <input *ngIf="showFilename('docFront')" type="text" id="docFront" name="docFront" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'docFront', tab)" disabled>
+            <input *ngIf="!showFilename('docFront')" type="file" id="docFront" name="docFront" required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+              placeholder="Attach" (change)="onFileSelected($event,'docFront', tab)">
+
+
+            <ng-container
+              *ngIf="identityDetailsForm.get('idType')?.value === 'E_TAZKIRA' || identityDetailsForm.get('idType')?.value === 'PASSPORT'">
+
+              <label for="docBack" class="mt-2 block text-sm font-medium text-gray-700">Document (Back)
+                <span class="text-red-500">*</span></label>
+              <input *ngIf="showFilename('docBack')" type="text" id="docBack" name="docBack" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'docBack', tab)" disabled>
+              <input *ngIf="!showFilename('docBack')" type="file" id="docBack" name="docBack" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'docBack', tab)">
+
+            </ng-container>
+
+
+
+
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <!--Final submission-->
+      <div *ngIf="tab == 'Final Submission'" class="py-6 px-8 mx-4">
+        <div class="space-y-6">
+          <!-- Loop through each section -->
+          <div *ngFor="let tab of formTabs; let i = index">
+            <div *ngIf="tab != 'Final Submission'"
+              class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
+              <!-- Section Title -->
+              <div class="flex items-center space-x-4">
+                <!-- Status Icon -->
+                <span *ngIf="formCompleted(tab)" class="text-green-500">
+                  <!-- Icon for Completed -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span *ngIf="!formCompleted(tab)" class="text-red-500">
+                  <!-- Icon for Incomplete -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </span>
+                <!-- Section Title -->
+                <h3 class="text-lg font-semibold" [ngClass]="formCompleted(tab) ? 'text-green-600' : 'text-gray-800'">
+                  {{ tab }}
+                </h3>
+              </div>
+
+
+              <!-- Action Button for Incomplete Sections -->
+              <div *ngIf="!formCompleted(tab) && tab != 'Final Submission'">
+                <button (click)="selectedTab(tab,i)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                  Click Here to Complete
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- //section for Documents -->
+          <!-- <div class="flex items-center space-x-4">
+            <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
+              <span *ngIf="allDocumentsAttached()" class="text-green-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span *ngIf="!allDocumentsAttached()" class="text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </span>
+              <h3 class="text-lg font-semibold" [ngClass]="allDocumentsAttached()
+               ? 'text-green-600' : 'text-gray-800'">
+                Documents
+              </h3>
+            </div>
+
+
+          </div> -->
+
+        </div>
+
+      </div>
+
+      <div class="flex float-right">
+        <button *ngIf="tab != 'Basic Info'" type="submit" (click)="previousTab(tab)"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Previous
+        </button>
+        <button *ngIf=" tab != 'Final Submission' " [disabled]="tab!= 'Basic Info' && !customerId" type="submit"
+          (click)="nextTab(tab)"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Save & Next
+        </button>
+
+
+        <button *ngIf="tab == 'Final Submission' && customerId" type="submit" (click)="completeCustomerKYC()"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Submit
+        </button>
+
+
+        <!--  [disabled]="!(basicDetailsForm.valid && companyDetailsForm.valid && businessLicenceDetailsForm.valid && businessActivityDetailsForm && companyAddressDetailsForm && shareHolderDetailsForm && authorizedDetailsForm && allallDocumentsAttached())"   <button type="submit" (click)="saveForm(tab)"
+        class=" mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+        Save
+        </button> -->
+
+      </div>
+      <button *ngIf="tab != 'Final Submission'" type="submit" (click)="resetForm(tab)"
+        class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+        Reset
+      </button>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+  </div>
+</div>

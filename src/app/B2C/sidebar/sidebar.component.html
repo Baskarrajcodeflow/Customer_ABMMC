@@ -1,0 +1,77 @@
+<div  style="height: calc(100vh - var(--header-footer-height)); "
+ class=" bg-white text-gray-700  overflow-auto scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-[rgb(0,100,162)] scrollbar-track-white relative">
+  <div class="flex items-center p-6 mb-4">
+    <img src="{{imageUrl}}/um/static/profile/{{img}}" alt="Profile" class="w-16 h-16 rounded-full mr-4">
+    <div>
+      <h2 class="text-xl font-semibold"> {{userName}}</h2>
+      <!-- <p class="text-gray-400">Good Morning!</p> -->
+    </div>
+  </div>
+  <nav>
+    <ul class="space-y-1">
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/dashboard')"  class="btn text-sm font-semibold leading-7 text-gray-700">Dashboard</a>
+      </li>
+
+      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+        <div class="flex items-center space-x-3" (click)="toggleKyc()">
+          <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+            <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+          </span>
+          <a class="btn text-sm font-semibold leading-7 text-gray-700">Complete Kyc</a>
+          <span class="ml-auto">▼</span> 
+        </div>
+        
+        <ul *ngIf="isSubMenuOpenUserkyc" class="ml-12 space-y-2">
+          <li class="hover:bg-blue-50 rounded-md p-1">
+            <a (click)="navigate('/corpKyc')" class="text-sm font-medium leading-6 text-gray-600">Complete Kyc</a>
+          </li>
+        </ul>
+      </li>
+    
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/moneyTransfer')" class="btn text-sm font-semibold leading-7 text-gray-700">Money Transfer</a>
+      </li>
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/breshnaPay')" class="btn text-sm font-semibold leading-7 text-gray-700">Breshna Payments</a>
+      </li>
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/tranactionHistory')"  class="btn text-sm font-semibold leading-7 text-gray-700">Transaction History</a>
+      </li>
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/cashoutRequests')" class="btn text-sm font-semibold leading-7 text-gray-700">Cash Out Reuests</a>
+      </li>
+      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/payrollRequests')" class="btn text-sm font-semibold leading-7 text-gray-700">Payroll Reuests</a>
+      </li>
+      
+
+      <!-- <li class="flex items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Add Money">
+        <a class="text-white">Add Money</a>
+      </li> -->
+      <!-- Add other menu items here -->
+    </ul>
+  </nav>
+ <!--  <div class="mt-auto">
+   
+  </div> -->
+</div>

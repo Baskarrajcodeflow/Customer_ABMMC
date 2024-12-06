@@ -1,0 +1,244 @@
+<div style="margin-left: 26px;height: 400px;margin-top: -100px;">
+ 
+
+  <div *ngIf="!otpVerify">
+    <h2
+    class="text-center text-[rgb(0,100,162)] text-2xl font-bold leading-9 tracking-tight"
+  >
+  <img
+  src="../../../assets/images/logo.png"
+  alt="Logo"
+  class="mx-auto mb-2 w-24 h-auto"
+/>
+    Create Your Account
+  </h2>
+    <form [formGroup]="backOfficeForm">
+      <div class="mb-4">
+        <label class=" ">First Name</label>
+        <input
+          formControlName="firstName"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('firstName')?.touched &&
+            backOfficeForm.get('firstName')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          First Name is required.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class=" ">Last Name</label>
+        <input
+          formControlName="lastName"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('lastName')?.touched &&
+            backOfficeForm.get('lastName')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Last Name is required.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class=" ">Email</label>
+        <input
+        [pattern]="emailPattern"
+          type="email"
+          formControlName="email"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('email')?.touched &&
+            backOfficeForm.get('email')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Email is required and must be a valid email address.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class=" ">Phone</label>
+        <input
+          type="number"
+          formControlName="phone"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('phone')?.touched &&
+            backOfficeForm.get('phone')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Phone number is required and must be at least 9 digits.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class=" ">Gender</label>
+        <select
+          formControlName="gender"
+          autocomplete="phone"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        >
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+          <option value="OTHERS">Others</option>
+        </select>
+        <div
+          *ngIf="
+            backOfficeForm.get('gender')?.touched &&
+            backOfficeForm.get('gender')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Gender is required.
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label>Password</label>
+        <div class="relative">
+          <input
+            type="password"
+            formControlName="password"
+            required
+            pattern="(?=.*[A-Z])(?=.*[0-9]).{8,}"
+            [maxlength]="12"
+            class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pr-4 py-2"
+          />
+
+        </div>
+        
+        <!-- Error message for required field -->
+        <div
+          *ngIf="
+            backOfficeForm.get('password')?.touched &&
+            backOfficeForm.get('password')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Password is required.
+        </div>
+      
+        <!-- Error message for pattern validation -->
+        <div
+          *ngIf="
+            backOfficeForm.get('password')?.touched &&
+            backOfficeForm.get('password')?.errors
+          "
+          class="text-red-600 text-sm"
+        >
+          Password must contain at least one uppercase letter, one digit (0-9), and be at least 8 characters long.
+        </div>
+      
+        <!-- <div
+          *ngIf="
+            backOfficeForm.get('password')?.touched &&
+            backOfficeForm.get('password')?.errors
+          "
+          class="text-red-600 text-sm"
+        >
+          Password cannot exceed 12 characters.
+        </div> -->
+      </div>
+      
+
+      <div class="mb-4">
+        <label class=" ">Confirm Password</label>
+        <input
+          formControlName="confirmPassword"
+          type="password"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('confirmPassword')?.touched &&
+            backOfficeForm.get('confirmPassword')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Confirm Password is required.
+        </div>
+        <div *ngIf="   backOfficeForm.get('confirmPassword')?.value &&    backOfficeForm.get('confirmPassword')?.value !==  backOfficeForm.get('password')?.value" class="text-red-500 text-sm">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <button
+        [disabled]="backOfficeForm.invalid"
+        (click)="onSave()"
+        type="submit"
+        class="w-full py-3 bg-custom-orange bg-orange-500 text-white font-bold rounded-lg transition duration-200"
+      >
+        Sign Up
+      </button>
+    </form>
+    <div class="text-center mt-4 mb-4">
+      <p>
+        Already a Member?
+        <a
+          class="text-[rgb(0,100,162)] font-semibold hover:underline"
+          (click)="navigate()"
+          >Login Here</a
+        >
+      </p>
+    </div>
+  </div>
+  <div *ngIf="otpVerify" class="my-auto" style="margin-top: 100px;">
+    <img
+    src="../../../assets/images/logo.png"
+    alt="Logo"
+    class="mx-auto mb-2 w-24 h-auto"
+  />
+    <h2
+    class="text-center text-[rgb(0,100,162)] text-2xl font-bold leading-9 tracking-tight"
+  >
+    Verify OTP
+  </h2>
+    <form [formGroup]="otpForm">
+      <div class="mb-4">
+        <label class=" ">Enter OTP</label>
+        <input
+          formControlName="OTP"
+          required
+          class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500  pr-4 py-2"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('OTP')?.touched &&
+            backOfficeForm.get('OTP')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          OTP is required.
+        </div>
+      </div>
+      <app-spinner></app-spinner>
+      <button
+      [disabled]="backOfficeForm.get('OTP')?.invalid"
+        (click)="onSaveOtp()"
+        type="submit"
+        class="w-full py-3 bg-custom-orange bg-orange-500 text-white font-bold rounded-lg transition duration-200"
+      >
+        Verify OTP
+      </button>
+    </form>
+  </div>
+</div>
