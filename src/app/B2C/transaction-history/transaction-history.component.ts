@@ -16,8 +16,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { SignupComponent } from "../signup/signup.component";
-import { SpinnerComponent } from "../spinner/spinner.component";
+import { SignupComponent } from '../signup/signup.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
 import { ApiService } from '../ApiService/api.service';
 @Component({
   selector: 'app-transaction-history',
@@ -30,8 +30,8 @@ import { ApiService } from '../ApiService/api.service';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     SignupComponent,
-    SpinnerComponent
-],
+    SpinnerComponent,
+  ],
   templateUrl: './transaction-history.component.html',
   styleUrl: './transaction-history.component.scss',
 })
@@ -81,53 +81,60 @@ export class TransactionHistoryComponent implements OnInit {
       toDate: [''],
       type: [''],
     });
-
-    const today = new Date();
-    // console.log('Current Date:', today.toISOString());
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(today.getMonth() - 1);
-    // console.log('One Month Ago:', oneMonthAgo);
-
-    const lastMonth = oneMonthAgo;
-    const formatDate = (date: Date): string => {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-      const year = date.getFullYear();
-      return `${year}-${month}-${day}`;
-    };
-    this.transactionHitoryForm.patchValue({
-      fromDate: formatDate(lastMonth),
-      toDate: formatDate(today),
-      type: 'ALL',
-    });
-
     let walletNo = sessionStorage.getItem('profileWalletNo');
-    let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
-    let toDate = this.transactionHitoryForm.controls['toDate'].value;
-    let strToDate = toDate?.split('-').reverse().join('-');
-    let strFromDate = fromDate?.split('-').reverse().join('-');
 
-    this.dataSharing.show();
-    this.loginService
-      .getTranasctionHistory(
-        walletNo,
-        this.transactionHitoryForm.controls['type'].value,
-        strFromDate,
-        strToDate
-      )
-      .subscribe({
-        next: (res) => {
-          if (res?.responseCode == 200) {
-            this.dataSharing.hide();
-            this.tranactionHistory = res?.data;
-            console.log(this.tranactionHistory);
-          }
-        },
-        error: () => {
-          this.dataSharing.hide();
-          alert('Error While Loading Data');
-        },
-      });
+    this.dataSharing.walletNo$.subscribe((res) => {
+      if (res) {
+        console.log(res);
+        
+        walletNo = res;
+        const today = new Date();
+        // console.log('Current Date:', today.toISOString());
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(today.getMonth() - 1);
+        // console.log('One Month Ago:', oneMonthAgo);
+    
+        const lastMonth = oneMonthAgo;
+        const formatDate = (date: Date): string => {
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+          const year = date.getFullYear();
+          return `${year}-${month}-${day}`;
+        };
+        this.transactionHitoryForm.patchValue({
+          fromDate: formatDate(lastMonth),
+          toDate: formatDate(today),
+          type: 'ALL',
+        });
+    
+        let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
+        let toDate = this.transactionHitoryForm.controls['toDate'].value;
+        let strToDate = toDate?.split('-').reverse().join('-');
+        let strFromDate = fromDate?.split('-').reverse().join('-');
+    
+        this.dataSharing.show();
+        this.loginService
+          .getTranasctionHistory(
+            walletNo,
+            this.transactionHitoryForm.controls['type'].value,
+            strFromDate,
+            strToDate
+          )
+          .subscribe({
+            next: (res) => {
+              if (res?.responseCode == 200) {
+                this.dataSharing.hide();
+                this.tranactionHistory = res?.data;
+                console.log(this.tranactionHistory);
+              }
+            },
+            error: () => {
+              this.dataSharing.hide();
+              alert('Error While Loading Data');
+            },
+          });
+      }
+    });
   }
 
   search(): void {
@@ -162,7 +169,7 @@ export class TransactionHistoryComponent implements OnInit {
       data: responseData,
       maxWidth: '500px',
       width: '450px',
-      disableClose:true
+      disableClose: true,
     });
   }
 

@@ -72,4 +72,11 @@ export class DatasharingService {
     this.kyclevel.next(currency);
   }
 
+  private walletNo = new BehaviorSubject<any>(null);
+  walletNo$ = this.walletNo.asObservable();
+
+  setwalletNoData(currency: any) {
+    this.walletNo.next(currency);
+  }
+
 }

@@ -47,6 +47,9 @@ export class MoneyTransferComponent implements OnInit {
           if (res?.responseCode == 200) {
             this.spinner.hide();
             this.payToArray = res?.data;
+            this.service = res?.data[0]?.walletType
+            console.log(this.service);
+            
             this.receiverId = res?.data[0]?.id;
             console.log(this.payToArray, 'aaa');
           } else {
@@ -95,6 +98,7 @@ export class MoneyTransferComponent implements OnInit {
   }
 
   sendMoney() {
+console.log(this.service);
 
     let SERVICE_NAME: any;
     if (this.service == 'CUSTOMER') {
