@@ -1,52 +1,52 @@
 
 {
   "/constants": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/risk": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "*": {
-    "target": "http://localhost:4200",
+    "target": "http://localhost:4100",
     "secure": false,
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "https://febb-2401-4900-1cde-dc04-2412-ca62-6d1f-aa8.ngrok-free.app",
+    "target": "http://192.168.0.195:8080",
     "secure": false,
     "changeOrigin": true
   }

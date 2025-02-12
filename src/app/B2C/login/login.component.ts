@@ -37,7 +37,7 @@ export class LoginComponent {
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'signUp' | 'forgotPassword' | 'otpVerification' | 'newPassword' =
+  currentView: 'login' | 'signUp' | 'forgotPassword' | 'otpVerification' | 'newPassword'  | 'OTPNew' =
     'login';
   result: any;
   key: any;
@@ -151,11 +151,49 @@ loginPage: any = true
   };
   username: any = null;
   passwords: any = null;
+  otpDigits: string[] = ['', '', '', '', '', ''];
+  otpError: string = '';
+  
+  moveToNext(index: number, event: any) {
+    if (event.target.value.length === 1 && index < 5) {
+      event.target.nextElementSibling?.focus();
+    }
+  }
   otp:any
-  login() {
+  login(event:any) {
+    sessionStorage.clear()
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
-    this.authService.login(this.username, this.password).subscribe({
+
+    let body = {
+      emailOrPhone:this.username,
+      password:this.password,
+      userType:'CUSTOMER'
+    }
+    this.apiService.generate(body).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res?.responseCode == 200){
+          if(event == 0){
+            alert('OTP has been sent to your email. Please verify.');
+          }else if(event == 1){
+            alert('OTP has been resent to your email. Please verify.');
+          }
+        this.currentView = 'OTPNew'
+        }else{
+          this.otpDigits = ['', '', '', '', '', ''];      
+          alert(res?.error)
+        }
+      },error:()=>{
+        alert('Something Went Wrong')
+      }
+    })
+
+   
+  }
+  loginNew() {
+    const otp = this.otpDigits.join('');
+       this.authService.login(this.username, this.password,otp).subscribe({
       next: (v: any) => {
         console.log(v);
         if(v?.responseCode == 200 || v?.responseCode == 2){

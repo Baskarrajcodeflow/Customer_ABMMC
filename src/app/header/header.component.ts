@@ -65,7 +65,9 @@ export class HeaderComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.img = sessionStorage.getItem('profileimg');
+    if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+      this.img = sessionStorage.getItem('profileimg');
+    }
     this.dataSharing.profilepic$.subscribe((res) => {
       if (res) {
         this.img = res;
@@ -155,5 +157,9 @@ export class HeaderComponent implements OnInit {
 
   getWalletBalance() {
     return this.sharedService.walletBalance;
+  }
+
+  logOut(){
+    sessionStorage.clear()
   }
 }
