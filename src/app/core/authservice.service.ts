@@ -1,6 +1,9 @@
 import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ApiService } from './api/api.service';
+import { SessionService } from '../services/session-service/session.service';
+import { Router } from '@angular/router';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +12,7 @@ export class AuthServices {
   private readonly JWT_TOKEN = "JWT_TOKEN";
   token!: string;
 
-  constructor(private apiService:ApiService) { }
+  constructor(private apiService:ApiService,private router:Router, private storageService:StorageService,private sessionService:SessionService) { }
   endpoint: string = "";
   currentUser = signal<string>("");
 
@@ -32,4 +35,22 @@ export class AuthServices {
     sessionStorage.setItem(this.JWT_TOKEN, jwt);
     this.token = jwt;
   }
+
+  getAuthToken(): string | null {
+    return this.storageService.getItem('JWT_TOKEN');
+
+}
+  logout(): void {
+    console.log('Timer End');
+    sessionStorage.clear() // Clear session
+    this.sessionService.stopTimer(); // Stop auto-logout timer
+    // this.router.navigate(['/home']);
+    alert('Session expired. Logging out...')
+    window.location.reload()
+  }
+  
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem('JWT_TOKEN');
+  }
+  
 }

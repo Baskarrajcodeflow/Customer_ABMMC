@@ -19,6 +19,7 @@ import { KycService } from '../customer-kyc/kyc.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { RegistrationFormComponent } from "../registration-form/registration-form.component";
 import { RegisterCorporateComponent } from '../coroporate-kyc/register-corporate/register-corporate.component';
+import { SessionService } from '../../services/session-service/session.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -66,7 +67,7 @@ loginPage: any = true
     private dataSharing:DatasharingService,
     private apiServic:KycService,
     private cdr: ChangeDetectorRef,
-    
+    private sessionService:SessionService
   ) {
     this.dataSharing.setCondition$.subscribe((res) => {
       if(res){
@@ -175,9 +176,10 @@ loginPage: any = true
         console.log(res);
         if(res?.responseCode == 200){
           if(event == 0){
-            alert('OTP has been sent to your email. Please verify.');
+            alert('OTP has been sent to your email / Phone. Please verify.');
           }else if(event == 1){
-            alert('OTP has been resent to your email. Please verify.');
+          this.otpDigits = ['', '', '', '', '', ''];      
+            alert('OTP has been resent to your email / Phone. Please verify.');
           }
         this.currentView = 'OTPNew'
         }else{
@@ -198,6 +200,7 @@ loginPage: any = true
         console.log(v);
         if(v?.responseCode == 200 || v?.responseCode == 2){
           alert(v?.message);
+          this.sessionService.startTimer();
           this.openModal = false;
           this.auth.logged = true;
           this.getProfileData();

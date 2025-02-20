@@ -7,6 +7,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { DatasharingService } from '../services/datasharing.service';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../B2C/ApiService/api.service';
+import { SessionService } from '../services/session-service/session.service';
 
 @Component({
   selector: 'app-header',
@@ -95,7 +96,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private data: DatasharingService,
     private dataSharing: DatasharingService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private sessionService:SessionService
   ) {}
 
   /* showHeaderProfile() : boolean {
@@ -161,5 +163,6 @@ export class HeaderComponent implements OnInit {
 
   logOut(){
     sessionStorage.clear()
+    this.sessionService.stopTimer(); // Stop auto-logout timer
   }
 }

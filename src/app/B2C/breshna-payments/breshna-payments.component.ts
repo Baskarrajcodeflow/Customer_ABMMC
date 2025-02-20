@@ -27,16 +27,30 @@ export class BreshnaPaymentsComponent implements OnInit {
   ) {}
   breshna = new FormGroup({
     BtnPayFrom: new FormControl('', Validators.required),
-    AccNumber: new FormControl('', Validators.required),
-    CustomerAccNum: new FormControl('', Validators.required),
-    PIN: new FormControl('', Validators.required),
+    AccNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$') 
+    ]),
+    CustomerAccNum:  new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$') 
+    ]),
+    PIN: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$') 
+    ]),
   });
 
   ngOnInit(): void {
     let data = sessionStorage.getItem('WalletAmount');
     this.breshna.controls['BtnPayFrom'].setValue(data);
   }
-
+  validateNumberInput(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
   searchBill() {
     this.spinner.show();
     this.apiService

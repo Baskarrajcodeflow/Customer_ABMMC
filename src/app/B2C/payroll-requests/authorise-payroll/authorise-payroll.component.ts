@@ -23,6 +23,13 @@ export class AuthorisePayrollComponent {
   ) {
     console.log(data);
   }
+  
+  preventInvalidCharacters(event: KeyboardEvent): void {
+    const char = event.key;
+    if (!/^[0-9]$/.test(char)) {
+      event.preventDefault();
+    }
+  }
   pay() {
     this.spinner.show();
     this.apiService
