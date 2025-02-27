@@ -45,12 +45,14 @@ export class AuthServices {
     sessionStorage.clear() // Clear session
     this.sessionService.stopTimer(); // Stop auto-logout timer
     // this.router.navigate(['/home']);
-    alert('Session expired. Logging out...')
+    // alert('Session expired. Logging out...')
+    // this.router.navigate(['/home']);
     window.location.reload()
+    window.history.back()
   }
   
-  isLoggedIn(): boolean {
-    return !!sessionStorage.getItem('JWT_TOKEN');
+  isLoggedIn(): boolean|any {
+    return sessionStorage.getItem('JWT_TOKEN');
   }
   
 }

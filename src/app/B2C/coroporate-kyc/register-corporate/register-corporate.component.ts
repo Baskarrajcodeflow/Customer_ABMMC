@@ -32,17 +32,8 @@ export class RegisterCorporateComponent {
   identityDetailsForm!: FormGroup<{
     customerFirstName: FormControl<string | null>;
     customerLastName: FormControl<string | null>;
-    customerFatherName: FormControl<string | null>;
-    customerDOB: FormControl<string | null>;
     customerGender: FormControl<string | null>;
-    customerMaritialStatus: FormControl<string | null>;
     customerEmail: FormControl<string | null>;
-    customerAlternatePhone: FormControl<string | null>;
-    customerNationality: FormControl<string | null>;
-    customerBirthCountry: FormControl<string | null>;
-    customerBirthProvince: FormControl<string | null>;
-    employmentType: FormControl<string | null>;
-    idType: FormControl<string | null>;
     phone: FormControl<string | null>;
     password: FormControl<string | null>;
   }>;
@@ -123,14 +114,9 @@ export class RegisterCorporateComponent {
         '',
         [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
       ],
-      customerFatherName: [
-        '',
-        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
-      ],
+
       //customerMMWallet : ['', Validators.required],
-      customerDOB: ['', [Validators.required, this.ageValidator()]],
       customerGender: ['', Validators.required],
-      customerMaritialStatus: ['', Validators.required],
 
       customerEmail: [
         '',
@@ -139,15 +125,6 @@ export class RegisterCorporateComponent {
           Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
         ],
       ],
-      customerAlternatePhone: [
-        '',
-        [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
-      ],
-      customerNationality: ['', Validators.required],
-      customerBirthCountry: ['', Validators.required],
-      customerBirthProvince: ['', Validators.required],
-      employmentType: ['', Validators.required],
-      idType: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
       password: ['', Validators.required],
     });
@@ -244,77 +221,77 @@ export class RegisterCorporateComponent {
     });
   }
 
-  customerKYCBasic() {
-    let request = {
-      kycType: 'CUSTOMER',
-      submittedFor: this.customerId,
-      kycInputs: {
-        custInfoFirstName: this.identityDetailsForm.value.customerFirstName,
-        custInfoLastName: this.identityDetailsForm.value.customerLastName,
-        custInfoFatherName: this.identityDetailsForm.value.customerFatherName,
-        custInfoDob: this.identityDetailsForm.value.customerDOB,
-        custInfoGender: this.identityDetailsForm.value.customerGender,
-        custInfoMaritalStatus:
-          this.identityDetailsForm.value.customerMaritialStatus,
-        custInfoAltPhone: this.identityDetailsForm.value.customerAlternatePhone,
-        custInfoEmail: this.identityDetailsForm.value.customerEmail,
-        custInfoNationality: this.identityDetailsForm.value.customerNationality,
-        custInfoBirthCountry:
-          this.identityDetailsForm.value.customerBirthCountry,
-        custInfoBirthProvince:
-          this.identityDetailsForm.value.customerBirthProvince,
-        currLocation: this.addressDetailsForm.value.currentLocation,
-        currCountry: this.addressDetailsForm.value.currentCountry,
-        currProvince: this.addressDetailsForm.value.currentProvince,
-        currProvinceId: this.addressDetailsForm.value.currentProvince,
-        currDistrict: this.addressDetailsForm.value.currentDistrict,
-        currDistrictId: this.addressDetailsForm.value.currentDistrict,
-        permCountry: this.addressDetailsForm.value.permanantCountry,
-        permProvince: this.addressDetailsForm.value.permanantProvince,
-        permProvinceId: this.addressDetailsForm.value.permanantProvince,
-        permDistrict: this.addressDetailsForm.value.permanantDistrict,
-        permDistrictId: this.addressDetailsForm.value.permanantDistrict,
-        employmentType: 'EMPLOYED',
-        employerName: this.occupationDetailsForm.value?.employerName,
-        sourceOfIncome: this.occupationDetailsForm.value?.sourceOfIncome,
-        positionHeld: this.occupationDetailsForm.value?.positionHeld,
-        periodOfService: 0,
-        monthlyTurnover: this.occupationDetailsForm.value?.monthlyTurnover,
-        monthlyIncome: this.occupationDetailsForm.value?.monthlyIncome,
-        tinNumber: this.occupationDetailsForm.value?.tinNumber,
-        bizNature: this.occupationDetailsForm.value?.natureofBusiness,
-        govtOrgName: this.occupationDetailsForm.value?.govtOrganizationName,
-        govtPositionHeld: this.occupationDetailsForm.value?.govtPositionHeld,
-        nokName: this.nextOfKinDetailsForm.value.fullName,
-        nokFatherName: this.nextOfKinDetailsForm.value.fatherName,
-        nokRelationship: this.nextOfKinDetailsForm.value.relationship,
-        nokPhone: this.nextOfKinDetailsForm.value.phoneNumber,
-        nokLocation: this.nextOfKinDetailsForm.value.location,
-        purposeOfAcc: this.proofsDetailsForm.value?.purposeofAcoount,
-        custProofType: this.identityDetailsForm.value.idType,
-        custProofNumber: this.proofsDetailsForm.value?.idNumber,
-        custProofDateOfIssue: this.proofsDetailsForm.value?.dateofIsuue,
-        custProofDateOfExpiry: this.proofsDetailsForm.value?.dateofExpiry,
-        tazkiraPageNo: this.proofsDetailsForm.value?.pageNumber,
-        tazkiraRegNo: this.proofsDetailsForm.value?.regNumber,
-        tazkiraBookNo: this.proofsDetailsForm.value?.bookNumber,
-      },
-    };
-    this.apiService.customerKYCSubmit(request).subscribe({
-      next: (user: any) => {
-        if (user) {
-          this.isLoading = false;
-          this.otpVerify = true;
-          this.dataSgaring.corpKycData(false);
-          alert('Customer Registered Successfully');
-        }
-      },
-      error: () => {
-        this.isLoading = false;
-        alert('Something went wrong');
-      },
-    });
-  }
+  // customerKYCBasic() {
+  //   let request = {
+  //     kycType: 'CUSTOMER',
+  //     submittedFor: this.customerId,
+  //     kycInputs: {
+  //       custInfoFirstName: this.identityDetailsForm.value.customerFirstName,
+  //       custInfoLastName: this.identityDetailsForm.value.customerLastName,
+  //       custInfoFatherName: this.identityDetailsForm.value.customerFatherName,
+  //       custInfoDob: this.identityDetailsForm.value.customerDOB,
+  //       custInfoGender: this.identityDetailsForm.value.customerGender,
+  //       custInfoMaritalStatus:
+  //         this.identityDetailsForm.value.customerMaritialStatus,
+  //       custInfoAltPhone: this.identityDetailsForm.value.customerAlternatePhone,
+  //       custInfoEmail: this.identityDetailsForm.value.customerEmail,
+  //       custInfoNationality: this.identityDetailsForm.value.customerNationality,
+  //       custInfoBirthCountry:
+  //         this.identityDetailsForm.value.customerBirthCountry,
+  //       custInfoBirthProvince:
+  //         this.identityDetailsForm.value.customerBirthProvince,
+  //       currLocation: this.addressDetailsForm.value.currentLocation,
+  //       currCountry: this.addressDetailsForm.value.currentCountry,
+  //       currProvince: this.addressDetailsForm.value.currentProvince,
+  //       currProvinceId: this.addressDetailsForm.value.currentProvince,
+  //       currDistrict: this.addressDetailsForm.value.currentDistrict,
+  //       currDistrictId: this.addressDetailsForm.value.currentDistrict,
+  //       permCountry: this.addressDetailsForm.value.permanantCountry,
+  //       permProvince: this.addressDetailsForm.value.permanantProvince,
+  //       permProvinceId: this.addressDetailsForm.value.permanantProvince,
+  //       permDistrict: this.addressDetailsForm.value.permanantDistrict,
+  //       permDistrictId: this.addressDetailsForm.value.permanantDistrict,
+  //       employmentType: 'EMPLOYED',
+  //       employerName: this.occupationDetailsForm.value?.employerName,
+  //       sourceOfIncome: this.occupationDetailsForm.value?.sourceOfIncome,
+  //       positionHeld: this.occupationDetailsForm.value?.positionHeld,
+  //       periodOfService: 0,
+  //       monthlyTurnover: this.occupationDetailsForm.value?.monthlyTurnover,
+  //       monthlyIncome: this.occupationDetailsForm.value?.monthlyIncome,
+  //       tinNumber: this.occupationDetailsForm.value?.tinNumber,
+  //       bizNature: this.occupationDetailsForm.value?.natureofBusiness,
+  //       govtOrgName: this.occupationDetailsForm.value?.govtOrganizationName,
+  //       govtPositionHeld: this.occupationDetailsForm.value?.govtPositionHeld,
+  //       nokName: this.nextOfKinDetailsForm.value.fullName,
+  //       nokFatherName: this.nextOfKinDetailsForm.value.fatherName,
+  //       nokRelationship: this.nextOfKinDetailsForm.value.relationship,
+  //       nokPhone: this.nextOfKinDetailsForm.value.phoneNumber,
+  //       nokLocation: this.nextOfKinDetailsForm.value.location,
+  //       purposeOfAcc: this.proofsDetailsForm.value?.purposeofAcoount,
+  //       custProofType: this.identityDetailsForm.value.idType,
+  //       custProofNumber: this.proofsDetailsForm.value?.idNumber,
+  //       custProofDateOfIssue: this.proofsDetailsForm.value?.dateofIsuue,
+  //       custProofDateOfExpiry: this.proofsDetailsForm.value?.dateofExpiry,
+  //       tazkiraPageNo: this.proofsDetailsForm.value?.pageNumber,
+  //       tazkiraRegNo: this.proofsDetailsForm.value?.regNumber,
+  //       tazkiraBookNo: this.proofsDetailsForm.value?.bookNumber,
+  //     },
+  //   };
+  //   this.apiService.customerKYCSubmit(request).subscribe({
+  //     next: (user: any) => {
+  //       if (user) {
+  //         this.isLoading = false;
+  //         this.otpVerify = true;
+  //         this.dataSgaring.corpKycData(false);
+  //         alert('Customer Registered Successfully');
+  //       }
+  //     },
+  //     error: () => {
+  //       this.isLoading = false;
+  //       alert('Something went wrong');
+  //     },
+  //   });
+  // }
 
   sendOtp() {
     let body = {
@@ -326,7 +303,11 @@ export class RegisterCorporateComponent {
           alert('OTP has sent to you Email.Please Verify.');
           this.otpVerify = true;
         } else {
-          alert('Error Try Again');
+          if(res?.error){
+            alert(res?.error)
+          }else if(res?.data){
+            alert(res?.data)
+          }
         }
       },
       error: () => {
@@ -337,5 +318,13 @@ export class RegisterCorporateComponent {
 
   gotoLogin() {
     this.dataSgaring.corpKycData(false);
+  }
+
+
+  validateNumberInput(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 }

@@ -131,7 +131,7 @@
             formControlName="password"
             id="password"
             maxlength="12"
-            pattern="(?=.*[A-Z])(?=.*[0-9]).{6,}"
+            (keypress)="validateNumberInput($event)"
             class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
             placeholder="Customer Password"
           />
@@ -147,9 +147,6 @@
             <div *ngIf="identityDetailsForm.controls['password'].errors?.['required']">
               Password is required.
             </div>
-            <div *ngIf="identityDetailsForm.controls['password'].errors?.['pattern']">
-              Password must contain at least one uppercase letter, one digit, and be between 6-12 characters long.
-            </div>
           </div>
         </div>
         </div>
@@ -162,7 +159,7 @@
             Cancel
           </button>
           <button
-           
+           [disabled]="identityDetailsForm.invalid"
             (click)="sendOtp()"
             type="submit"
             class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300"
@@ -212,7 +209,7 @@
             class=" bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
             Cancel
             </button>
-            <button  (click)="createPayload()" type="submit"
+            <button [disabled]="otpForm.invalid" (click)="createPayload()" type="submit"
             class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
            Verify & Register
             </button>

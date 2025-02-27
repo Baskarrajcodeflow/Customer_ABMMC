@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,9 +23,12 @@ import { SessionService } from '../../services/session-service/session.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, OurServicesComponent, SignupComponent, SpinnerComponent, RegisterCorporateComponent],
+  imports: [CommonModule, TranslateModule, FormsModule,
+     OurServicesComponent, SignupComponent, SpinnerComponent,
+      RegisterCorporateComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  
 })
 export class LoginComponent {
   //login data
@@ -33,7 +36,7 @@ export class LoginComponent {
   loginReq!: loginReq;
   phone: string = '';
   password: string = '';
-
+ 
   //forget password
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -69,11 +72,17 @@ loginPage: any = true
     private cdr: ChangeDetectorRef,
     private sessionService:SessionService
   ) {
+    if(sessionStorage.getItem('JWT_TOKEN')){
+      window.location.reload()
+      console.log('login');
+      
+     }
     this.dataSharing.setCondition$.subscribe((res) => {
       if(res){
         this.value = res;
       }
       console.log('Login Component - Value:', this.value);
+   
     });
     this.dataSharing.corpKyc$.subscribe((res) => {
       this.viewCorporateRegister = res;
@@ -184,7 +193,11 @@ loginPage: any = true
         this.currentView = 'OTPNew'
         }else{
           this.otpDigits = ['', '', '', '', '', ''];      
-          alert(res?.error)
+          if(res?.error){
+            alert(res?.error)
+          }else if(res?.data){
+            alert(res?.data)
+          }
         }
       },error:()=>{
         alert('Something Went Wrong')
@@ -205,8 +218,10 @@ loginPage: any = true
           this.auth.logged = true;
           this.getProfileData();
           this.router.navigateByUrl('/dashboard');
+          this.dataSharing.loginSignUp(true);
         }else{
           alert(v?.message)
+          this.otpDigits = ['', '', '', '', '', ''];      
         }
         let token = v?.token;
         const helper = new JwtHelperService();

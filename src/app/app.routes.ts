@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './B2C/dashboard/dashboard.component';
-import { AuthGuardService } from './services/auth-guard.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { HomeComponent } from './B2C/home/home.component';
 import { CustomerKycComponent } from './components/customer-kyc/customer-kyc.component';
@@ -13,44 +12,23 @@ import { CashoutRequestRejectComponent } from './B2C/cashout-request-reject/cash
 import { PayrollRequestsComponent } from './B2C/payroll-requests/payroll-requests.component';
 import { TransactionHistoryComponent } from './B2C/transaction-history/transaction-history.component';
 import { CustomerKycComponents } from './B2C/coroporate-kyc/customer-kyc/customer-kyc.component';
+import { AuthGuard } from './services/auth-guard.service';
 
-// export const routes: Routes = [
-//     {
-//         path : 'registration', component : RegistrationFormComponent
-//     },
-//     {
-//         path : 'product/:product', component : ProductComponent, canActivate : [AuthGuardService]
-//     },
-//     {
-//         path : 'dashboard', component : DashboardComponent , canActivate : [AuthGuardService]
-//     },
-//     {
-//         path : 'branches', component : BranchAddressComponent , canActivate : [AuthGuardService]
-//     },
-//     {
-//         path : 'ourservices', component : OurServicesComponent , canActivate : [AuthGuardService]
-//     },
-//     {
-//         path : 'transactionHistory', component : TransactionHistoryComponent , canActivate : [AuthGuardService]
-//     }, {
-//         path : 'createUser', component : CreateUserComponent
-//     }
-// ];
 export const routes: Routes = [
-  { path: 'createUser', component: CreateUserComponent },
-  { path: 'customerKyc', component: CustomerKycComponent }, 
-  { path: 'home', component: HomeComponent },
+  { path: 'createUser', component: CreateUserComponent , canActivate: [AuthGuard]},
+  { path: 'customerKyc', component: CustomerKycComponent, canActivate: [AuthGuard] }, 
+  { path: 'home', component: HomeComponent, },
   { path: 'login', component: LoginComponent },
-  { path: 'moneyTransfer', component: MoneyTransferComponent },
-  { path: 'breshnaPay', component: BreshnaPaymentsComponent },
-  { path: 'cashoutRequests', component: CashoutRequestRejectComponent },
-  { path: 'payrollRequests', component: PayrollRequestsComponent },
-  { path: 'signUp', component: SignupComponent },
-  { path: 'tranactionHistory', component: TransactionHistoryComponent },
-  { path: 'corpKyc', component: CustomerKycComponents },
+  { path: 'moneyTransfer', component: MoneyTransferComponent , canActivate: [AuthGuard]},
+  { path: 'breshnaPay', component: BreshnaPaymentsComponent, canActivate: [AuthGuard] },
+  { path: 'cashoutRequests', component: CashoutRequestRejectComponent, canActivate: [AuthGuard] },
+  { path: 'payrollRequests', component: PayrollRequestsComponent, canActivate: [AuthGuard] },
+  { path: 'signUp', component: SignupComponent, },
+  { path: 'tranactionHistory', component: TransactionHistoryComponent, canActivate: [AuthGuard] },
+  { path: 'corpKyc', component: CustomerKycComponents, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: DashboardComponent, canActivate: [AuthGuard]
   },
  
   { path: '', redirectTo: '/home', pathMatch: 'full' }, 

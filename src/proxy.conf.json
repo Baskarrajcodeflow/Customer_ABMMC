@@ -1,52 +1,52 @@
 
 {
   "/constants": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/risk": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "*": {
-    "target": "https://app.mymoney.af",
+    "target": "http://localhost:4100",
     "secure": false,
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "https://app.mymoney.af",
+    "target": "http://uatapp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }
