@@ -24,6 +24,7 @@ import autoTable from 'jspdf-autotable';
 import jsPDF from 'jspdf';
 import * as XLSX from 'xlsx-js-style';
 import saveAs from 'file-saver';
+
 @Component({
   selector: 'app-transaction-history',
   standalone: true,
@@ -36,12 +37,16 @@ import saveAs from 'file-saver';
     ReactiveFormsModule,
     SignupComponent,
     SpinnerComponent,
-    MatMenuModule
+    MatMenuModule,
   ],
   templateUrl: './transaction-history.component.html',
   styleUrl: './transaction-history.component.scss',
 })
 export class TransactionHistoryComponent implements OnInit {
+  totalCredit: any;
+  totalDebit: any;
+  totalCreditCount: any;
+  totalDebitCount: any;
   constructor(
     private dialog: MatDialog,
     private loginService: ApiService,
@@ -59,10 +64,6 @@ export class TransactionHistoryComponent implements OnInit {
   responseLength!: boolean;
   isLoadingResults!: boolean;
   transactionHitoryForm!: FormGroup;
-  totalCredit: any;
-  totalDebit: any;
-  totalCreditCount: any;
-  totalDebitCount: any;
   // previousPage: any = 0;
   tranactionHistory: any;
   array: any[] = [
@@ -91,19 +92,14 @@ export class TransactionHistoryComponent implements OnInit {
       toDate: [''],
       type: [''],
     });
-    let walletNo = sessionStorage.getItem('profileWalletNo');
-
     this.dataSharing.walletNo$.subscribe((res) => {
       if (res) {
-        console.log(res);
-        
-        walletNo = res;
         const today = new Date();
         // console.log('Current Date:', today.toISOString());
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(today.getMonth() - 1);
         // console.log('One Month Ago:', oneMonthAgo);
-    
+
         const lastMonth = oneMonthAgo;
         const formatDate = (date: Date): string => {
           const day = String(date.getDate()).padStart(2, '0');
@@ -116,12 +112,13 @@ export class TransactionHistoryComponent implements OnInit {
           toDate: formatDate(today),
           type: 'ALL',
         });
-    
+
+        let walletNo = sessionStorage.getItem('profileWalletNo');
         let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
         let toDate = this.transactionHitoryForm.controls['toDate'].value;
         let strToDate = toDate?.split('-').reverse().join('-');
         let strFromDate = fromDate?.split('-').reverse().join('-');
-    
+
         this.dataSharing.show();
         this.loginService
           .getTranasctionHistory(
@@ -188,10 +185,15 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   search(): void {
+
+    // this.loginService.downloadTransactionPdf().subscribe((res)=>{
+
+    // })
     let walletNo = sessionStorage.getItem('profileWalletNo');
     let type = this.transactionHitoryForm.controls['type'].value || 'ALL';
     let fromDate = this.transactionHitoryForm.controls['fromDate'].value;
     let toDate = this.transactionHitoryForm.controls['toDate'].value;
+
 
     let strToDate = toDate?.split('-').reverse().join('-');
     let strFromDate = fromDate?.split('-').reverse().join('-');
@@ -264,45 +266,6 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   //----------------------------------------------------------------------------//
-  getTranasctionHistory(Page: any) {
-    let operator: any;
-
-    this.dataSharing.operator$.subscribe((res) => {
-      operator = res;
-    });
-    let req = {
-      accountNo: this.sharedService.walletNo,
-      serviceName: operator,
-      fromDate: '2024-06-01 00:00:00',
-      toDate: '2024-06-26 23:59:59',
-    };
-
-    if (Page === 'nextPage') {
-      this.isLoadingResults = true;
-    }
-
-    // else if (Page === 'previousPage') {
-    //   this.isLoadingResults = true;
-    //   this.loginService
-    //     .getTranasctionHistory(req, --this.nextPage)
-    //     .subscribe((res) => {
-    //       if (res?.code == 100) {
-    //         this.isLoadingResults = false;
-    //         console.log(res?.response);
-    //         this.tranactionHistory = res?.response;
-    //       }
-    //     });
-    // } else {
-    //   this.loginService
-    //     .getTranasctionHistory(req, this.nextPage)
-    //     .subscribe((res) => {
-    //       if (res?.code == 100) {
-    //         console.log(res?.response);
-    //         this.tranactionHistory = res?.response;
-    //       }
-    //     });
-    // }
-  }
 
   makePdf() {
     const doc = new jsPDF('p', 'pt', 'a4');

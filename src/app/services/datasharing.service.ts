@@ -79,6 +79,12 @@ export class DatasharingService {
     this.walletNo.next(currency);
   }
 
+  private loginFlag = new BehaviorSubject<any>(false);
+  loginFlag$ = this.loginFlag.asObservable();
+
+  setloginFlagData(currency: any) {
+    this.loginFlag.next(currency);
+  }
   public loginNew = new BehaviorSubject<boolean>(false);
   loginnew$ = this.loginNew.asObservable();
   private isBrowser!: boolean;

@@ -35,8 +35,8 @@ export class SessionService {
   }
 
   logoutUser(): void {
-    this.getAuthService().logout(); 
-    this.router.navigate(['/home']);
+    this.getAuthService().logoutExpiry(); 
+    // this.router.navigate(['/home']);
   }
 
   stopTimer(): void {

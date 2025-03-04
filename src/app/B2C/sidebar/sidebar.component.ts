@@ -20,21 +20,21 @@ img:any
 ngOnInit(): void {
   this.img = sessionStorage.getItem('profileimg')
 
-    this.dataSharing.profilepic$.subscribe((res)=>{
-      if(res){
-        this.img = res
-        sessionStorage.setItem('profileimg',res)
-      }
-    })
-    this.dataSharing.kyclevel$.subscribe((res)=>{
-      this.kyclevel = res
-      console.log(this.kyclevel);
-      
-    })
-    this.sharedService.loginDeatails$.subscribe((res:any)=>{
-      if(res)
-      this.userName = `${res?.firstName} ${res?.lastName}`
-    })
+  this.dataSharing.profilepic$.subscribe((res)=>{
+    if(res){
+      this.img = res
+      sessionStorage.setItem('profileimg',res)
+    }
+  })
+  this.dataSharing.kyclevel$.subscribe((res)=>{
+    this.kyclevel = res
+    console.log(this.kyclevel);
+    
+  })
+  this.sharedService.loginDeatails$.subscribe((res:any)=>{
+    if(res)
+    this.userName = `${res?.firstName} ${res?.lastName}`
+  })
 }
 
   constructor(private route:Router,

@@ -16,6 +16,7 @@ import { OurServicesComponent } from "./B2C/Our-Services/our-services.component"
 import { DatasharingService } from './services/datasharing.service';
 import { BackButtonService } from './services/back-button.service';
 import { AuthServices } from './core/authservice.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',

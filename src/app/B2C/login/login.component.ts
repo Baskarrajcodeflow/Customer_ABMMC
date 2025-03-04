@@ -11,24 +11,29 @@ import { LoginService } from '../../services/login.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import { AuthServices } from '../../core/authservice.service';
-import { OurServicesComponent } from "../../components/Our-Services/our-services.component";
+import { OurServicesComponent } from '../../components/Our-Services/our-services.component';
 import { ApiService } from '../ApiService/api.service';
 import { SignupComponent } from '../../components/signup/signup.component';
 import { DatasharingService } from '../../services/datasharing.service';
 import { KycService } from '../customer-kyc/kyc.service';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
-import { RegistrationFormComponent } from "../registration-form/registration-form.component";
+import { RegistrationFormComponent } from '../registration-form/registration-form.component';
 import { RegisterCorporateComponent } from '../coroporate-kyc/register-corporate/register-corporate.component';
 import { SessionService } from '../../services/session-service/session.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule,
-     OurServicesComponent, SignupComponent, SpinnerComponent,
-      RegisterCorporateComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    OurServicesComponent,
+    SignupComponent,
+    SpinnerComponent,
+    RegisterCorporateComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  
 })
 export class LoginComponent {
   //login data
@@ -36,13 +41,18 @@ export class LoginComponent {
   loginReq!: loginReq;
   phone: string = '';
   password: string = '';
- 
+
   //forget password
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'signUp' | 'forgotPassword' | 'otpVerification' | 'newPassword'  | 'OTPNew' =
-    'login';
+  currentView:
+    | 'login'
+    | 'signUp'
+    | 'forgotPassword'
+    | 'otpVerification'
+    | 'newPassword'
+    | 'OTPNew' = 'login';
   result: any;
   key: any;
   salt: any;
@@ -53,11 +63,11 @@ export class LoginComponent {
   timer!: number;
   customerId: any;
   loginId: any;
-  openModal :boolean = true;
+  openModal: boolean = true;
   otpVerify: any;
   otpForm!: FormGroup;
-newPassword: any;
-loginPage: any = true
+  newPassword: any;
+  loginPage: any = true;
 
   constructor(
     private sharedService: SharedService,
@@ -65,29 +75,27 @@ loginPage: any = true
     private authService: AuthServices,
     private loginService: LoginService,
     private router: Router,
-    private auth : AuthService,
-    private apiService:ApiService,
-    private dataSharing:DatasharingService,
-    private apiServic:KycService,
+    private auth: AuthService,
+    private apiService: ApiService,
+    private dataSharing: DatasharingService,
+    private apiServic: KycService,
     private cdr: ChangeDetectorRef,
-    private sessionService:SessionService
+    private sessionService: SessionService
   ) {
-    if(sessionStorage.getItem('JWT_TOKEN')){
-      window.location.reload()
+    if (sessionStorage.getItem('JWT_TOKEN')) {
+      window.location.reload();
       console.log('login');
-      
-     }
+    }
     this.dataSharing.setCondition$.subscribe((res) => {
-      if(res){
+      if (res) {
         this.value = res;
       }
       console.log('Login Component - Value:', this.value);
-   
     });
     this.dataSharing.corpKyc$.subscribe((res) => {
       this.viewCorporateRegister = res;
     });
-    
+
     this.otpForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       OTP: ['', [Validators.required]],
@@ -98,9 +106,8 @@ loginPage: any = true
     this.salt = 'f9Nj*7ZjK!5qJiV@*bIC%5b$7305EDAeZRYy8PYa95!9&ur50';
   }
 
-  closeModal(){
+  closeModal() {
     this.openModal = false;
-
   }
 
   onKeyPress(event: KeyboardEvent): void {
@@ -163,182 +170,233 @@ loginPage: any = true
   passwords: any = null;
   otpDigits: string[] = ['', '', '', '', '', ''];
   otpError: string = '';
-  
+
   moveToNext(index: number, event: any) {
     if (event.target.value.length === 1 && index < 5) {
       event.target.nextElementSibling?.focus();
     }
   }
-  otp:any
-  login(event:any) {
-    sessionStorage.clear()
+  otp: any;
+  login(event: any) {
+    sessionStorage.clear();
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
 
     let body = {
-      emailOrPhone:this.username,
-      password:this.password,
-      userType:'CUSTOMER'
-    }
+      emailOrPhone: this.username,
+      password: this.password,
+      userType: 'CUSTOMER',
+    };
     this.apiService.generate(body).subscribe({
-      next:(res)=>{
+      next: (res) => {
         console.log(res);
-        if(res?.responseCode == 200){
-          if(event == 0){
+        if (res?.responseCode == 200) {
+          if (event == 0) {
             alert('OTP has been sent to your email / Phone. Please verify.');
-          }else if(event == 1){
-          this.otpDigits = ['', '', '', '', '', ''];      
+          } else if (event == 1) {
+            this.otpDigits = ['', '', '', '', '', ''];
             alert('OTP has been resent to your email / Phone. Please verify.');
           }
-        this.currentView = 'OTPNew'
-        }else{
-          this.otpDigits = ['', '', '', '', '', ''];      
-          if(res?.error){
-            alert(res?.error)
-          }else if(res?.data){
-            alert(res?.data)
+          this.currentView = 'OTPNew';
+        } else {
+          this.otpDigits = ['', '', '', '', '', ''];
+          if (res?.error) {
+            alert(res?.error);
+          } else if (res?.data) {
+            alert(res?.data);
           }
         }
-      },error:()=>{
-        alert('Something Went Wrong')
-      }
-    })
-
-   
+      },
+      error: () => {
+        alert('Something Went Wrong');
+      },
+    });
   }
   loginNew() {
     const otp = this.otpDigits.join('');
-       this.authService.login(this.username, this.password,otp).subscribe({
+    this.authService.login(this.username, this.password, otp).subscribe({
       next: (v: any) => {
         console.log(v);
-        if(v?.responseCode == 200 || v?.responseCode == 2){
+        if (v?.responseCode == 200 || v?.responseCode == 2) {
+          let token = v?.token;
+          const helper = new JwtHelperService();
+          let decodedToken = helper.decodeToken(JSON.stringify(token));
+          // console.log(decodedToken);
+          // const date = new Date(decodedToken?.iat * 1000); // Convert from seconds to milliseconds
+          // console.log(date.toISOString(),'decoded')
+          // console.log(new Date().toISOString(),'curr time');
+          if (decodedToken?.iat) {
+            const decodedTime = decodedToken.iat * 1000; // Convert from seconds to milliseconds
+            const currentTime = Date.now(); // Current time in milliseconds
+
+            console.log(new Date(decodedTime), 'Decoded Time');
+            console.log(new Date(currentTime), 'Current Time');
+
+            const timeDifference = (currentTime - decodedTime) / 1000; // Convert to seconds
+
+            if (timeDifference <= 60) {
+              alert(v?.message);
+              this.sessionService.startTimer();
+              this.openModal = false;
+              this.auth.logged = true;
+              this.dataSharing.setloginFlagData(true)
+              this.getProfileData();
+              this.router.navigateByUrl('/dashboard');
+              this.dataSharing.loginSignUp(true);
+              // console.log('✅ Token is within the last 30 seconds.');
+            } else {
+              // alert('Invalid Token!!!');
+              sessionStorage.clear();
+              window.location.reload();
+              // console.log('❌ Token is older than 30 seconds.');
+            }
+          } else {
+            console.log("⚠️ Invalid token or missing 'iat' field.");
+          }
+        } else {
           alert(v?.message);
-          this.sessionService.startTimer();
-          this.openModal = false;
-          this.auth.logged = true;
-          this.getProfileData();
-          this.router.navigateByUrl('/dashboard');
-          this.dataSharing.loginSignUp(true);
-        }else{
-          alert(v?.message)
-          this.otpDigits = ['', '', '', '', '', ''];      
+          this.otpDigits = ['', '', '', '', '', ''];
         }
-        let token = v?.token;
-        const helper = new JwtHelperService();
-        let decodedToken = helper.decodeToken(JSON.stringify(token));
       },
     });
+  }
+  isJwtValid(token: string): boolean {
+    try {
+      // Split JWT into its three parts
+      const [header, payload, signature] = token.split('.');
+
+      // Decode the payload (base64 -> JSON)
+      const decodedPayload = atob(payload);
+      const parsedPayload = JSON.parse(decodedPayload);
+
+      // Get current time in seconds
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      // Get issued at time from JWT
+      const issuedAtTime = parsedPayload.iat;
+
+      // Calculate difference in seconds
+      const timeDifference = currentTime - issuedAtTime;
+
+      // Check if difference exceeds 60 seconds (1 minute)
+      return timeDifference <= 60;
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return false; // Return false if there's any error in decoding
+    }
   }
 
   getProfileData() {
     this.apiService.getUserProfile().subscribe((res) => {
       console.log(res);
-      this.sharedService.liginDeatilsData(res?.data)
+      this.sharedService.liginDeatilsData(res?.data);
       sessionStorage.setItem('SenderUserId', res?.data?.id);
       sessionStorage.setItem(
         'profileWalletNo',
         res?.data?.walletAccount?.walletNo
       );
-      this.dataSharing.setwalletNoData(res?.data?.walletAccount?.walletNo)
-      sessionStorage.setItem(
-        'walletId',
-        res?.data?.walletAccount?.id
-      );
+      this.dataSharing.setwalletNoData(res?.data?.walletAccount?.walletNo);
+      sessionStorage.setItem('walletId', res?.data?.walletAccount?.id);
       sessionStorage.setItem('Kyclevel', res?.data?.accountKycLevel);
       sessionStorage.setItem('profileimg', res?.data?.profilePic);
-      this.dataSharing.setprofilepicData(res?.data?.profilePic)
+      this.dataSharing.setprofilepicData(res?.data?.profilePic);
       this.dataSharing.setkyclevelData(res?.data?.accountKycLevel);
       this.apiService
         .getPayFromAccountDetails(res?.data?.walletAccount?.walletNo)
         .subscribe((res) => {
           console.log(res);
-          this.dataSharing.setcurrencyData(res?.data)
+          this.dataSharing.setcurrencyData(res?.data);
           sessionStorage.setItem('WalletAmount', res?.data);
           // this.dataSharing.currentBalanceData(res?.data)
         });
     });
   }
 
-  
   pwdReset() {
     let body = {
       email: this.email,
       password: this.newPassword,
-      userType:'CUSTOMER'
+      userType: 'CUSTOMER',
     };
     console.log(body);
-    
-    this.dataSharing.show()
+
+    this.dataSharing.show();
     this.apiServic.forgotPwd(body).subscribe({
-      next:(res)=>{
-          if(res?.responseCode == 200){
-            alert('Password Reset Successful')
-            this.dataSharing.hide()
-            // this.otpVerify = false
-            this.resetPwdData = false;
-            // this.resetPwd = false;
-            setTimeout(() => {
-              this.value = true
-              this.currentView = 'login';
-              console.log("Current View after password reset:", this.currentView);
-              this.cdr.detectChanges();
-            }, 0); 
-          }else{
-            this.dataSharing.hide()
-            alert(res?.error)
-          }
-      },error:()=>{
-        this.dataSharing.hide()
-        alert('Error Try Again')
-      }
-    })
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          alert('Password Reset Successful');
+          this.dataSharing.hide();
+          // this.otpVerify = false
+          this.resetPwdData = false;
+          // this.resetPwd = false;
+          setTimeout(() => {
+            this.value = true;
+            this.currentView = 'login';
+            console.log('Current View after password reset:', this.currentView);
+            this.cdr.detectChanges();
+          }, 0);
+        } else {
+          this.dataSharing.hide();
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.dataSharing.hide();
+        alert('Error Try Again');
+      },
+    });
   }
   navigate() {
-    this.router.navigateByUrl('signUp')
+    this.router.navigateByUrl('signUp');
   }
 
-  value:any = true
+  value: any = true;
   viewCorporateRegister: boolean = false;
 
   gotoRegister(event: any) {
     this.viewCorporateRegister = event;
   }
 
-
   switchView(
-    view: 'login' | 'signUp' | 'forgotPassword' | 'otpVerification' | 'newPassword'
+    view:
+      | 'login'
+      | 'signUp'
+      | 'forgotPassword'
+      | 'otpVerification'
+      | 'newPassword'
   ) {
     this.currentView = view;
   }
-  data:any = true
-  resetPwdData:any= false
+  data: any = true;
+  resetPwdData: any = false;
   resetPwd: boolean = true;
-  loginformData:boolean = true
+  loginformData: boolean = true;
   sendOtp() {
     let body = {
       email: this.email,
-      userType: "CUSTOMER"
+      userType: 'CUSTOMER',
     };
     this.dataSharing.show();
     this.apiServic.forgotOtp(body).subscribe({
-      next:(res)=>{
-          if (res?.responseCode == 200) {
-            this.dataSharing.hide();
-            this.otpVerify = false;
-            this.resetPwd = false;
-            this.loginformData = false
-            this.otpVerify = true
-            this.value = false
-            alert('OTP has sent to your mail');
-          } else {
-            this.dataSharing.hide();
-            alert(res?.error);
-          }
-      },error:()=>{
-        this.dataSharing.hide()
-        alert('Error Try Again')
-      }
-    })
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.dataSharing.hide();
+          this.otpVerify = false;
+          this.resetPwd = false;
+          this.loginformData = false;
+          this.otpVerify = true;
+          this.value = false;
+          alert('OTP has sent to your mail');
+        } else {
+          this.dataSharing.hide();
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.dataSharing.hide();
+        alert('Error Try Again');
+      },
+    });
   }
   onSaveOtp() {
     let email = this.email;
@@ -348,21 +406,22 @@ loginPage: any = true
       otp: this.otp,
     };
     this.apiServic.verifyOtp(body).subscribe({
-      next:(res)=>{
-          if (res?.responseCode == 200) {
-            this.resetPwdData = true;
-            this.otpVerify = false
-            this.resetPwdData = true
-            this.dataSharing.hide()
-            alert('OTP Verified Successfully');
-          } else {
-            alert(res?.error);
-          }
-      },error:()=>{
-        this.dataSharing.hide()
-        alert('Error Try Again')
-      }
-    })
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.resetPwdData = true;
+          this.otpVerify = false;
+          this.resetPwdData = true;
+          this.dataSharing.hide();
+          alert('OTP Verified Successfully');
+        } else {
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.dataSharing.hide();
+        alert('Error Try Again');
+      },
+    });
   }
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);

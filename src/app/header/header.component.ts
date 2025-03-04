@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit {
   showMainTopupButton: boolean = false;
   showAgentSubagentDashboard: boolean = false;
   showSubAgent: boolean = false;
+  loginFlag: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -103,7 +104,14 @@ export class HeaderComponent implements OnInit {
     private sessionService:SessionService,
     @Inject(PLATFORM_ID) private platformId: object
     
-  ) {}
+  ) {
+    // console.log(authService.logged,'_++++++++++++=____________+++++++++++++++____________+++++++++++');
+    dataSharing.loginFlag$.subscribe((res)=>{
+      console.log(res,'_++++++++++++=____________+++++++++++++++____________+++++++++++');
+      
+    this.loginFlag = res
+    })
+  }
 
   /* showHeaderProfile() : boolean {
   this.authService.isLoggedIn.subscribe(data => {
