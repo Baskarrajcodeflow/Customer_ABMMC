@@ -50,29 +50,93 @@
             placeholder="Phone Number"
           />
 
-
           <label
-            for="customerGender"
-            class="mt-4 block text-sm font-medium text-gray-700"
-            >Gender<span class="text-red-500">*</span></label
-          >
+                    for="birthCountry"
+                    class="mt-4 block text-sm font-medium text-gray-700"
+                    >Birth Country<span class="text-red-500">*</span></label
+                  >
           <select
-            id="customerGender"
-            name="customerGender"
-            formControlName="customerGender"
+            id="birthCountry"
+                    name="birthCountry"
+                    formControlName="birthCountry"
+                    placeholder="Select"
             placeholder="Select"
             class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
             [ngClass]="{
               'border-red-500':
-                identityDetailsForm.controls['customerGender'].touched &&
-                identityDetailsForm.controls['customerGender'].invalid
+                identityDetailsForm.controls['birthCountry'].touched &&
+                identityDetailsForm.controls['birthCountry'].invalid
             }"
           >
-            <option value="" disabled selected>Select</option>
-            <option value="MALE">Male</option>
-            <option value="FEMALE">Female</option>
+          <option value="" disabled selected>Select</option>
+                    <option
+                    *ngFor="let nationality of nationalities"
+                    [value]="nationality?.name"
+                  >
+                    {{ nationality?.name }}
+                  </option>
           </select>
-         
+
+
+
+
+
+
+
+
+       
+          <label
+                  for="birthDistrict"
+                  class="mt-4 block text-sm font-medium text-gray-700"
+                  >Birth District<span class="text-red-500">*</span></label
+                >
+          <select
+            id="birthDistrict"
+                  name="birthDistrict"
+                  formControlName="birthDistrict"
+                  placeholder="Select"
+            placeholder="Select"
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                identityDetailsForm.controls['birthDistrict'].touched &&
+                identityDetailsForm.controls['birthDistrict'].invalid
+            }"
+          >
+                   <option value="" disabled selected>Select</option>
+                  <option *ngFor="let district of districts" [value]="district.name">
+                    {{ district.name }}
+                  </option>
+          </select>
+
+   
+          <label
+          for="customerGender"
+          class="mt-4 block text-sm font-medium text-gray-700"
+          >Gender<span class="text-red-500">*</span></label
+        >
+        <select
+          id="customerGender"
+          name="customerGender"
+          formControlName="customerGender"
+          placeholder="Select"
+          class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+          [ngClass]="{
+            'border-red-500':
+              identityDetailsForm.controls['customerGender'].touched &&
+              identityDetailsForm.controls['customerGender'].invalid
+          }"
+        >
+          <option value="" disabled selected>Select</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+
+     
+      
+
+
+
         </div>
 
         <div class="flex flex-col">
@@ -117,38 +181,87 @@
           />
 
          
-          
-
-         
-          <label
-          for="password"
-          class="mt-4 block text-sm font-medium text-gray-700"
-          >Password<span class="text-red-500">*</span></label
+            <label
+                      for="birthProvince"
+                      class="-mt-1 block text-sm font-medium text-gray-700"
+                      >Birth Province<span class="text-red-500">*</span></label
+                    >
+        <select
+        id="birthProvince"
+                    name="birthProvince"
+                    formControlName="birthProvince"
+                    placeholder="Select"  
+                   (change)="onSelectProvince($event)"
+          class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+          [ngClass]="{
+            'border-red-500':
+              identityDetailsForm.controls['birthProvince'].touched &&
+              identityDetailsForm.controls['birthProvince'].invalid
+          }"
         >
-        <div class="relative">
-          <input
-            [type]="isPasswordVisible ? 'text' : 'password'"
-            formControlName="password"
-            id="password"
-            maxlength="12"
-            (keypress)="validateNumberInput($event)"
-            class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Customer Password"
-          />
-          <span (click)="togglePasswordVisibility()" class="right-3 top-4 absolute cursor-pointer">
-            <i [ngClass]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-          </span>
-        
-          <div
-            *ngIf="identityDetailsForm.controls['password'].invalid &&
-                    (identityDetailsForm.controls['password'].touched || identityDetailsForm.controls['password'].dirty)"
-            class="text-red-500 text-sm mt-1"
-          >
-            <div *ngIf="identityDetailsForm.controls['password'].errors?.['required']">
-              Password is required.
-            </div>
-          </div>
+        <option value="" disabled selected>Select</option>
+              <option *ngFor="let province of provinces" [value]="province.name">
+                {{ province.name }}
+              </option>
+        </select>
+
+          <label
+                  for="dateOfBirth"
+                  class="-mt-1 block text-sm font-medium text-gray-700"
+                  >Date Of Birth<span class="text-red-500">*</span></label
+                >
+      <input
+      type="date"
+                id="dateOfBirth"
+                formControlName="dateOfBirth"
+                name="dateOfBirth"
+                required
+        class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+        [ngClass]="{
+          'border-red-500':
+            identityDetailsForm.controls['dateOfBirth'].touched &&
+            identityDetailsForm.controls['dateOfBirth'].invalid
+        }"
+        placeholder="Date Of Birth"
+      />
+  
+
+      
+
+    
+ 
+      <label
+      for="password"
+      class="mt-4 block text-sm font-medium text-gray-700"
+      >Password<span class="text-red-500">*</span></label
+    >
+    <div class="relative">
+      <input
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        formControlName="password"
+        id="password"
+        maxlength="12"
+        (keypress)="validateNumberInput($event)"
+        class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Customer Password"
+      />
+      <span (click)="togglePasswordVisibility()" class="right-3 top-4 absolute cursor-pointer">
+        <i [ngClass]="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+      </span>
+    
+      <div
+        *ngIf="identityDetailsForm.controls['password'].invalid &&
+                (identityDetailsForm.controls['password'].touched || identityDetailsForm.controls['password'].dirty)"
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="identityDetailsForm.controls['password'].errors?.['required']">
+          Password is required.
         </div>
+      </div>
+    </div>
+
+
+
         </div>
         <div class="flex gap-2 justify-end mt-2 md:col-span-2">
           <button

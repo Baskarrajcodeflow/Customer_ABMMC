@@ -62,7 +62,12 @@
         </span>
         <a (click)="navigate('/payrollRequests')" class="btn text-sm font-semibold leading-7 text-gray-700">Payroll Reuests</a>
       </li>
-      
+      <li [class.opacity-50]="kyclevel == 'NONE'"   [class.pointer-events-none]="kyclevel == 'NONE'" [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+        <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+          <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+        </span>
+        <a (click)="navigate('/bundleTopup')" class="btn text-sm font-semibold leading-7 text-gray-700">Bundle TopUp</a>
+      </li>
 
       <!-- <li class="flex items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Add Money">

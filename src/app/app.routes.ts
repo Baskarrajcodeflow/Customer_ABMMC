@@ -13,6 +13,7 @@ import { PayrollRequestsComponent } from './B2C/payroll-requests/payroll-request
 import { TransactionHistoryComponent } from './B2C/transaction-history/transaction-history.component';
 import { CustomerKycComponents } from './B2C/coroporate-kyc/customer-kyc/customer-kyc.component';
 import { AuthGuard } from './services/auth-guard.service';
+import { BundleTopupDashboardComponent } from './B2C/Bundle-Topup/bundle-topup-dashboard/bundle-topup-dashboard.component';
 
 export const routes: Routes = [
   { path: 'createUser', component: CreateUserComponent , canActivate: [AuthGuard]},
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'signUp', component: SignupComponent, },
   { path: 'tranactionHistory', component: TransactionHistoryComponent, canActivate: [AuthGuard] },
   { path: 'corpKyc', component: CustomerKycComponents, canActivate: [AuthGuard] },
+  { path: 'bundleTopup', component: BundleTopupDashboardComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
     component: DashboardComponent, canActivate: [AuthGuard]
