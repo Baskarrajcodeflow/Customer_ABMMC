@@ -12,63 +12,63 @@ export interface otpVerificationReq {
     otp: number,
 }
 export interface addCustomerReq {
-     firstName :  string ,
-   lastName :  string ,
-   fathersName :  string ,
-   tazkiraNumber :  string ,
-   phone :  string ,
-   gender : number,
-   dob :  any ,
-   country : number,
-   nationality :  number,
-   language :  number,
-   info :  string ,
-   email :  string ,
-   password :  string ,
-   fcmToken :  string ,
-   batchId :  number,
-   active :  boolean,
-   pep :  boolean,
-   province :  string ,
-   occupation :  string ,
-   monthlyIncome :  string ,
-   nextKin :  string ,
-   address : {
-     countryId :  number,
-     province :  string ,
-     district :  string ,
-     village :  string ,
-     streetNo :  string ,
-     houseOrFlatOrBuilding :  string ,
-     postalCode :  string 
-  },
-   bulkFlag :  boolean
+    firstName: string,
+    lastName: string,
+    fathersName: string,
+    tazkiraNumber: string,
+    phone: string,
+    gender: number,
+    dob: any,
+    country: number,
+    nationality: number,
+    language: number,
+    info: string,
+    email: string,
+    password: string,
+    fcmToken: string,
+    batchId: number,
+    active: boolean,
+    pep: boolean,
+    province: string,
+    occupation: string,
+    monthlyIncome: string,
+    nextKin: string,
+    address: {
+        countryId: number,
+        province: string,
+        district: string,
+        village: string,
+        streetNo: string,
+        houseOrFlatOrBuilding: string,
+        postalCode: string
+    },
+    bulkFlag: boolean
 
 }
 
 export interface findFeesAndCommissionFPWReq {
-    walletNo : string,
+    walletNo: string,
     transactionAmount: number,
     serviceName: string,
     userType: string,
     loginId: number
-      
+
 }
 
-export interface FormControlConfig{
-    id : string,
+export interface FormControlConfig {
+    id: string,
     name: string,
-    label : string,
+    label: string,
     type: 'text' | 'email' | 'password' | 'dropdown' | 'radio',
-    placeholder ?: string,
-    validation ?: ValidationRules,
-    icon ?: string,
-    errortext ?: ErrorMessages,
+    placeholder?: string,
+    validation?: ValidationRules,
+    icon?: string,
+    errortext?: ErrorMessages,
     options?: { key: string, value: string }[]; // for dropdown and radio buttons
 
 }
 
-export interface ValidationRules{
+export interface ValidationRules {
     required?: boolean; // Whether the field is required
     minLength?: number; // Minimum length of the field value
     maxLength?: number; // Maximum length of the field value
@@ -82,4 +82,47 @@ export interface ErrorMessages {
     maxLength?: string; // Error message for maxLength validation
     pattern?: string; // Error message for pattern validation
     // Add more error messages as needed
-  }
+}
+
+
+export interface BundleItem {
+    id: any,
+    section: string,
+    name: string,
+    price: string,
+    inDeduction: string,
+    govTax: string,
+    normalVol: string,
+    nightVol?: string,
+    validity: string,
+    code: string
+}
+export interface BundleList {
+    voiceBundle: BundleItem[],
+    dataBundle: BundleItem[]
+}
+export interface BundleTopupReq {
+    initiator: {
+        id: number,
+    },
+    serviceProvider: {
+        id: number
+    },
+    serviceReceiver: {
+        id: number
+    },
+    context: {
+        SERVICE_NAME:string,
+        MEDIUM: string,
+        CHANNEL: string,
+        mobileNumber: string,
+        AMOUNT: string,
+        PIN: string,
+        bundle: string
+    }
+
+}
+
+
+
+
