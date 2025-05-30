@@ -12,34 +12,41 @@
         </select>
       </div>
 
-      <div class="mb-4">
+      <div *ngIf="walletBalance >1 else lowBalance;" class="mb-4">
         <label class="block text-sm text-gray-700 mb-2">Please Enter Your Mobile Number (without +93)</label>
         <div class="flex items-center space-x-2">
           <span class="bg-gray-200 px-3 py-2 rounded text-sm font-semibold text-gray-700">AWCC</span>
-          <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full focus:outline-none" [(ngModel)]="mobileNumber"
-           [ngClass]="{
+          <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full focus:outline-none"
+            [(ngModel)]="mobileNumber" [ngClass]="{
                   'border-red-800 border-r-4': validMobileNumber() === false && mobileNumber.length > 0,
                   'border-green-800 border-r-4': validMobileNumber() === true                   
-            }"/>
+            }" />
         </div>
       </div>
+      <ng-template #lowBalance>
+        <div class="text-red-600 font-semibold text-center">
+          Your Wallet balance is too low to buy a bundle. Please top up your wallet.
+        </div>
+        </ng-template>
 
       <div *ngIf="!selectedBundle && validMobileNumber()" class="flex justify-between mt-6">
         <button class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mr-2"
           (click)="onClickViewBundles()">
           View Bundles
-        </button>        
+        </button>
       </div>
 
-      <div *ngIf="!!selectedBundle" class="mt-6 text-md text-gray-600 font-semibold space-y-1">
+      <div *ngIf="!!selectedBundle"
+        class="mt-6 text-md text-gray-600 font-semibold space-y-1 bg-gray-100 p-4 rounded-lg shadow-sm">
 
-        <div class="flex justify-between items-start">
+        <div class="flex justify-between items-baseline">
 
 
-          <div class="text-gray-500">Selected bundle Details : </div>
+          <div class="text-gray-500 text-xs"> Selected Bundle :</div>
           <!-- <div class="text-gray-500">Price: {{ selectedBundle?.price }} AFN</div> -->
-          <button class="text-white bg-orange-400 hover:bg-orange-500 px-4 py-1 rounded-full text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-            (click)="selectedBundle = null; onClickViewBundles()" [disabled] = "validMobileNumber() === false">
+          <button
+            class="text-white bg-orange-400 hover:bg-orange-500 px-4 py-1 rounded-full text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="selectedBundle = null; onClickViewBundles()" [disabled]="validMobileNumber() === false">
             Change Bundle
           </button>
         </div>
@@ -52,39 +59,33 @@
                   d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4" />
               </svg>
             </span>{{selectedBundle.price}} AFN</span>
-            <div class="text-md  font-semibold text-gray-500 p-2">Data: {{ selectedBundle.normalVol }}/day</div>
-        <div class="text-md font-semiboldtext-gray-500 p-2">Validity: {{ selectedBundle.validity }} Days</div>
+          <div class="text-sm  font-semibold text-gray-500 p-1">Data/Voice Volume: {{ selectedBundle.normalVol }}/day
           </div>
-
-
-        
-           <div class="mt-8 mb-2">
-        <label class="block text-sm text-gray-700 mb-2">Enter Transaction PIN</label>
-        <div class="flex items-center space-x-2 mb-2">          
-          <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full" 
-          (keypress)="validateNumberInput($event)"
-          [(ngModel)]="pin"
-          type="password"
-          [ngClass]="{
-                  'border-red-500 focus:ring-red-500': pin.length != 4,
-                  'border-green-300 focus:ring-green-300': pin.length == 4             
-            }"/>
+          <!--  <div class="text-md  font-semibold text-gray-500 p-1">Data: {{ selectedBundle.normalVol }}/day</div> -->
+          <div class="text-sm font-semibold text-gray-500 p-1">Validity: {{ selectedBundle.validity }} Days</div>
         </div>
       </div>
-        
-           
+      <ng-container *ngIf="!!selectedBundle">
+        <div class="mt-8 mb-2 pt-2">
+          <label class="block text-sm text-gray-700 mb-2">Enter Transaction PIN</label>
+          <div class="flex items-center space-x-2 mb-2">
+            <input type="text" class="text-black bg-white border border-gray-300 rounded p-2 w-full"
+              (keypress)="validateNumberInput($event)" [(ngModel)]="pin" type="password" [ngClass]="{
+                  'border-red-500 border-r-8 focus:ring-red-500': pin.length != 4,
+                  'border-green-300 focus:ring-green-300': pin.length == 4             
+            }"/>
+          </div>
+        </div>
 
-            <div *ngIf="pin.length == 4 && validMobileNumber()" class="flex justify-between mt-4">
-        <button class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mx-4"
-          (click)="onProceedtopup()">
-          Proceed
-        </button>         
-      </div>
 
 
-
-      </div>
-
+        <div *ngIf="pin.length == 4 && validMobileNumber()" class="flex justify-between mt-4">
+          <button class="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-lg w-full mx-4"
+            (click)="onProceedtopup()">
+            Proceed
+          </button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
