@@ -4,7 +4,7 @@
  
   <input
     type="text"
-    placeholder="Search plans..."
+    placeholder="Search Bundle name or price or validity"
     [(ngModel)]="searchTerm"
     class="w-full mb-6 px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-orange-500"
   />
@@ -38,7 +38,7 @@
     
 
 <ng-container *ngIf="!!activeTab">
-  <ng-container *ngFor="let bundle of bundleList">
+  <ng-container *ngFor="let bundle of filteredBundles">
     <div class="border rounded-xl shadow-md p-5 w-full  bg-gray relative my-2">
       <div class="flex justify-between items-start">
         <div>

@@ -18,16 +18,13 @@ import { BundleItem, BundleList } from '../../../../interfaces/interfaces';
 
 export class BundleListComponent {
 
-  bundles: BundleList[] = [];
-  
-  
   searchTerm: string = '';
-  activeTab = 'data'
+  activeTab : string = 'data';
   dataBundles: BundleItem[] = [];
   voiceBundles: BundleItem[] = [];
   bundleList: BundleItem[] = [];
   constructor(
-     @Inject(MAT_DIALOG_DATA) public data: BundleList,
+     @Inject(MAT_DIALOG_DATA) public data: any,
       private apiService: ApiService,
       private spinner: SpinnerService,
       private dialogRef: MatDialogRef<BundleListComponent>
@@ -42,18 +39,38 @@ export class BundleListComponent {
 
   tabChange() {
     if(this.activeTab === 'data'){
-    this.bundleList = this.data.dataBundle || [];
+    this.bundleList = this.data.data.dataBundle || [];
     }
     else if(this.activeTab === 'voice'){
-      this.bundleList = this.data.voiceBundle || [];
+      this.bundleList = this.data.data.voiceBundle || [];
     }
   }
 
   SelectPlan(selectedBundle : BundleItem){
-    console.log('Selected Bundle:', selectedBundle);
-    this.dialogRef.close(selectedBundle);
-
+    const price = Number(selectedBundle.price);    
+    if(price >= this.data.balance){
+      alert(`Your Balance is ${this.data.balance} AFN. Insufficient balance to purchase this bundle. Please topup your wallet or select another bundle.`);
+      return;
+    }
+    else{
+          this.dialogRef.close(selectedBundle);
+    }
   }
+
+  get filteredBundles(): BundleItem[] {
+    if (!this.searchTerm) {
+      this.tabChange();
+      return this.bundleList;
+    }
+    else{      
+      return this.bundleList.filter(bundle =>{             
+        return(bundle.name.toLowerCase().includes(this.searchTerm.toLowerCase()) || bundle.price.includes(this.searchTerm) || bundle.validity.includes(this.searchTerm))
+
+      }
+    );
+  }
+
+    }
 
 
 }

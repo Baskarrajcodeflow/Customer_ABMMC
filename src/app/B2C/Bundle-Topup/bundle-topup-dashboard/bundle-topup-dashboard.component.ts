@@ -17,40 +17,37 @@ import { Observable } from 'rxjs';
 })
 export class BundleTopupDashboardComponent {
   bundleList: BundleList[] = [];
-  walletBalance = sessionStorage.getItem('WalletAmount');
   selectedBundle: BundleItem | null = null;
   pin: string = '';
   mobileNumber: string = '';
   userId: string | null = null;
+  walletBalance : number =0;
   constructor(private dialog: MatDialog,
     private apiService: ApiService,
     private spinner: SpinnerService
 
 
 
-  ) { }
+  ) {      
+    this.walletBalance = Number(sessionStorage.getItem('WalletAmount'));
+   }
 
   onClickViewBundles() {
     this.spinner.show();
     this.apiService.getBundles().subscribe({
       next: (res) => {
-        console.log(res);
         if (res?.responseCode == 200) {
           this.spinner.hide();
           this.bundleList = res?.data;
-          console.log('Bundle List:', this.bundleList);
           const dialogRef = this.dialog
             .open(BundleListComponent, {
               width: '75%',
               maxHeight: '80vh',
               panelClass: 'custom-dialog-container',
-              data: this.bundleList,
-              // disableClose:true
             })
             .afterClosed()
             .subscribe((res) => {
               this.selectedBundle = res
-              console.log('Dialog closed with result:', res);
             })
 
         } else {
@@ -71,7 +68,6 @@ export class BundleTopupDashboardComponent {
 
   validMobileNumber(){
     const mobilePattern = /.*(7\d{8})$/; // Adjust the pattern as needed
-    console.log('Mobile Number:', mobilePattern.test(this.mobileNumber));
     return mobilePattern.test(this.mobileNumber);
   }
 
@@ -79,8 +75,7 @@ export class BundleTopupDashboardComponent {
 
   onProceedtopup() {
     this.spinner.show();
-    this.userId =(sessionStorage.getItem('SenderUserId'));
-    console.log('User ID:', this.userId);
+    this.userId =(sessionStorage.getItem('SenderUserId'));    
     // this.spinner.show();
     let req: BundleTopupReq = {
       initiator: {
@@ -103,10 +98,8 @@ export class BundleTopupDashboardComponent {
       }
     }
 
-    console.log('Bundle Topup Request:', req);
     this.apiService.bundleTopup(req).subscribe({
       next: (res) => {
-        console.log(res);
         if (res?.responseCode == 200) {
           if(res?.data?.status_code === 200){
             alert(res?.data?.status);
