@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 
-const SECRET_KEY = 'DAdHr3nBFT@hR3QdRK!XwAgA*M!mBB7Qso2J^4dHAN0tAIZg7A';
+//const SECRET_KEY = 'DAdHr3nBFT@hR3QdRK!XwAgA*M!mBB7Qso2J^4dHAN0tAIZg7A';
 const SALT_SIZE = 16;
 const IV_SIZE = 16;
 const ITERATION_COUNT = 65536;
@@ -47,37 +47,75 @@ const handleGetRequest = (
   req.clone({
     url,
     params: new HttpParams(),
-    headers: setHeaders(req.headers, token),
+    headers: setHeaders(req.headers, token, req.url),
   });
 const handlePostRequest = (
   req: HttpRequest<any>,
   url: string,
   token: string
 ): HttpRequest<any> =>
-  req.clone({
+{
+  if(req.url.includes('/aaa/generate') || req.url.includes('/aaa/customer/login') || req.url.includes('/um/api/customer/signUp') || req.url.includes('/api/otp/generate') || req.url.includes('/api/otp/verify') || req.url.includes('/customer/mobile/signUp') ){
+     const genertaOtpKey = Math.floor(100000 + Math.random() * 900000);
+     return req.clone({
     url,
     body:
       req.body instanceof FormData
         ? req.body
-        : encrypt(JSON.stringify(req.body), SECRET_KEY),
-    headers: req.body instanceof FormData ? setHeadersForm(req.headers, token) : setHeaders(req.headers, token),
+        :  genertaOtpKey?.toString()+encrypt(JSON.stringify(req.body), genertaOtpKey?.toString() || ''),
+    headers: req.body instanceof FormData ? setHeadersForm(req.headers, token) : setHeaders(req.headers, token, req.url),
   });
+
+  }
+  else{
+    return req.clone({
+    url,
+    body:
+      req.body instanceof FormData
+        ? req.body
+        : encrypt(JSON.stringify(req.body), getKey(token) || ''),
+    headers: req.body instanceof FormData ? setHeadersForm(req.headers, token,) : setHeaders(req.headers, token,req.url),
+  });
+  }
+}
 const getUrlDomain = (url: string): string =>
   url.split('/').slice(0, 4).join('/') + '/';
 
+const getKey = (token: string): string | null => {
+  try {
+    console.log("token-split",token.split('.')[2]);
+    const secretKey = token.split('.')[2];
+    return secretKey;
+  } catch (error) {
+     console.error('Failed to extract signature from JWT token:', error);
+    return null; 
+  }
+};
 
 const getRemain = (url: string): string => url.split('/').slice(4).join('/');
 
 // Helper Functions
-const setHeaders = (headers: HttpRequest<any>['headers'], token: string) =>
-  headers
-    .set('Authorization', `Bearer ${token}`)
+const setHeaders = (headers: HttpRequest<any>['headers'], token: string, url:string) =>{
+  console.log("url",url);
+  if( url.includes('/kyc/locations/countries') || url.includes('/kyc/locations/provinces') || url.includes('/kyc/locations/districts')|| url.includes('/customer/mobile/signUp')){
+     console.log("url 1st",url );
+    return headers.set('Content-Type', 'application/json')
     .set('Content-Type', 'text/plain')
-    .set('encryption', 'true');
+    .set('encryption', 'v3')
+    .delete('Authorization');
+  }
+  else{
+         console.log("url 2nd",url );
+
+    return headers.set('Authorization', `Bearer ${token}`)
+    .set('Content-Type', 'text/plain')
+    .set('encryption', 'v3');
+
+  }
+}
   const setHeadersForm = (headers: HttpRequest<any>['headers'], token: string) =>
       headers
         .set('Authorization', `Bearer ${token}`)
-        .set('encryption', 'true');
 const getKuttyChatanFromToken = (token: string): string | null => {
   try {
     return JSON.parse(atob(token.split('.')[1]))?.kuttyChatan || null;
@@ -159,7 +197,7 @@ const decrypt = (encryptedData: string): string => {
       combinedData.words.slice((SALT_SIZE + IV_SIZE) / 4)
     );
 
-    const key = CryptoJS.PBKDF2(SECRET_KEY, salt, {
+    const key = CryptoJS.PBKDF2(getKey(getJwtToken()) || '', salt, {
       keySize: KEY_SIZE / 32,
       iterations: ITERATION_COUNT,
     });
