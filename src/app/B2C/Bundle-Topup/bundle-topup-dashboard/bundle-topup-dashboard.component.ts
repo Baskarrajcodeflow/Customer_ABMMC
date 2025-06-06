@@ -21,7 +21,7 @@ export class BundleTopupDashboardComponent {
   pin: string = '';
   mobileNumber: string = '';
   userId: string | null = null;
-  walletBalance : number =0;
+  walletBalance !: number;
   constructor(private dialog: MatDialog,
     private apiService: ApiService,
     private spinner: SpinnerService
@@ -44,6 +44,10 @@ export class BundleTopupDashboardComponent {
               width: '75%',
               maxHeight: '80vh',
               panelClass: 'custom-dialog-container',
+              data: {
+                data: this.bundleList,
+                balance: this.walletBalance
+              }
             })
             .afterClosed()
             .subscribe((res) => {

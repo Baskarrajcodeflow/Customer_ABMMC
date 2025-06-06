@@ -29,26 +29,26 @@ export class BundleListComponent {
       private spinner: SpinnerService,
       private dialogRef: MatDialogRef<BundleListComponent>
   ) {
-   
+  
    }
 
 
   ngOnInit() {
-    this.bundleList = this.data.dataBundle || []; 
+    this.bundleList = this.data?.data?.dataBundle || []; 
   }
 
   tabChange() {
     if(this.activeTab === 'data'){
-    this.bundleList = this.data.data.dataBundle || [];
+    this.bundleList = this.data?.data?.dataBundle || [];
     }
     else if(this.activeTab === 'voice'){
-      this.bundleList = this.data.data.voiceBundle || [];
+      this.bundleList = this.data?.data?.voiceBundle || [];
     }
   }
 
   SelectPlan(selectedBundle : BundleItem){
     const price = Number(selectedBundle.price);    
-    if(price >= this.data.balance){
+    if(price >= this.data?.balance){
       alert(`Your Balance is ${this.data.balance} AFN. Insufficient balance to purchase this bundle. Please topup your wallet or select another bundle.`);
       return;
     }
