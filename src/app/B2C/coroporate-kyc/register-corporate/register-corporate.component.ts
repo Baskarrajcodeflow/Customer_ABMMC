@@ -40,9 +40,9 @@ export class RegisterCorporateComponent {
     birthCountry:FormControl<string | null>;
     birthProvince:FormControl<string | null>;
     birthDistrict:FormControl<string | null>;
-    currCountry:FormControl<string | null>;
+     currCountry:FormControl<string | null>;
     currProvince:FormControl<string | null>;
-    currDistrict:FormControl<string | null>;
+    currDistrict:FormControl<string | null>; 
   }>;
  
   addressDetailsForm!: FormGroup<{
@@ -139,7 +139,7 @@ export class RegisterCorporateComponent {
       birthDistrict: ['', Validators.required],
       currCountry: ['', Validators.required],
       currProvince: ['', Validators.required],
-      currDistrict: ['', Validators.required],
+      currDistrict: ['', Validators.required], 
     });
  
     this.addressDetailsForm = this.fb.group({
