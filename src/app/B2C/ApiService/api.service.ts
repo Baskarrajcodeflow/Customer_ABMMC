@@ -302,4 +302,20 @@ public generate(body: any) {
   console.log(h);
   return this.http.post<any>(url, body, { headers: h });
 }
+public checkEmailExist(email:string) {
+  let url = `${environment.apiUrl}/um/api/app/emailCheck?email=`+email;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
+public checkPhoneExist(phone:string) {
+  let url = `${environment.apiUrl}/um/api/app/phoneCheck?phone=`+phone;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get<any>(url, { headers: h });
+}
 }
